@@ -16,23 +16,6 @@ class Bot
         writer = System.out;
     }
 
-    public void makeFriend(String name)
-    {
-        this.name = name;
-    }
-
-    public String ask(String sentence)
-    {
-        sentence = sentence.toLowerCase();
-        switch (sentence) 
-        {
-            case "hello":
-                return "Hello " + name;
-                
-        }
-        return "I dont know what to say";
-    }
-
     private Map<String, String[]> questionVariations = new HashMap<>() {{
         put("name", new String[] {"Как тебя зовут?", "Как имя твоё?", "Какое у тебя имя?"});
         put("nickname", new String[] {"Как тебя называют?"});
@@ -124,7 +107,7 @@ class Bot
     }
 }
 
-public class app
+public class App
 {
     public static void main(String[] args) throws IOException
     {
