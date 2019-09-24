@@ -21,6 +21,8 @@ public class Bot {
         put("mood", new String[] {"Как дела?", "Как настрой?", "Как настроение?"});
     }};
 
+    private List<String> a = new ArrayList<>() {};
+
     private Map<String, ArrayList<String>> knowledge = new HashMap<>() {};
 
     public void Start() throws IOException { // Почему надо писать throws?
