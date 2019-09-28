@@ -1,3 +1,5 @@
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -8,8 +10,7 @@ import java.util.Random;
 
 public class App
 {
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException, ParseException {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
         boolean started = false;
