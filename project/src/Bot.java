@@ -9,17 +9,72 @@ public class Bot {
     private String name;
     private BufferedReader reader;
     private PrintStream writer;
+    private List<String> a = new ArrayList<>() {};
+    private Map<String, ArrayList<String>> knowledge = new HashMap<>() {};
+
     public Bot(InputStream in, PrintStream out)
     {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
     }
 
-    private List<String> a = new ArrayList<>() {};
+    public void StartGame() throws IOException {
+        var inGame = false;
+        var isCross = true;
+        var board = new int[3][3];
+        Clear(board);
+        while (!inGame) {
+            writer.println("За кого играем?");
+            var choise = reader.readLine();
+            if (choise.equals("X")) {
+                isCross = true;
+                inGame = true;
+            } else if (choise.equals("0") || choise.equals("O")) {
+                isCross = false;
+                inGame = true;
+            }
+        }
+        while (inGame) {
+            writer.println("Выбери координаты");
+            var coordinates = reader.readLine();
+            var x = Integer.parseInt(Character.toString(coordinates.charAt(0)));
+            var y = Integer.parseInt(Character.toString(coordinates.charAt(1)));
+            if (Mark(x, y, board, isCross)) {
+                PrintBoard(board);
+            } else {
+                writer.println("Координаты заняты");
+            }
+        }
+    }
 
-    private Map<String, ArrayList<String>> knowledge = new HashMap<>() {};
+    private void Clear(int[][] board) {
+        for (var i = 0; i < board.length; i++) {
+            Arrays.fill(board[i], -1);
+        }
+    }
 
-    public void Start() throws IOException, ParseException {
+    private void PrintBoard(int[][] board) {
+        writer.println(board);
+    }
+
+    private boolean Mark(int x, int y, int[][] board, boolean isCross) {
+        if (IsFree(x, y, board)) {
+            if (isCross) {
+                board[x][y] = 1;
+            } else {
+                board[x][y] = 0;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean IsFree(int x, int y, int[][] board) {
+        var place = board[x][y];
+        return place == -1;
+    }
+
+    public void StartConversation() throws IOException, ParseException {
         var knowledgeQuestions = new Knowledge();
         int questionPointer = 0;
         var refused = false;
@@ -94,14 +149,12 @@ public class Bot {
     private String GetRandomItem(ArrayList<String> questions) {
         Random r = new Random();
         var max = questions.size();
-        System.out.println(questions);
         var rnd = r.nextInt(max);
         return questions.get(rnd);
     }
 
     private void Ask(String type) {
         var questions = Knowledge.questionVariations.get(type);
-        System.out.println(type);
         var question = GetRandomItem(questions);
         writer.println(question);
     }
