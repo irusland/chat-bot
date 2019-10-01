@@ -2,7 +2,6 @@ import org.json.simple.parser.ParseException;
 
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
@@ -12,12 +11,13 @@ public class Bot {
     private BufferedReader reader;
     private PrintStream writer;
     private List<String> a = new ArrayList<>() {};
-    private Map<String, ArrayList<String>> knowledge = new HashMap<>() {};
+    private Map<String, ArrayList<String>> knowledgeAnswers = new HashMap<>() {};
+    private knowledge knowledge;
 
-    public Bot(InputStream in, PrintStream out)
-    {
+    public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
+        knowledge = new knowledge();
     }
 
     public void StartGame() throws Exception {
@@ -60,7 +60,7 @@ public class Bot {
         if (Mark(x, y, board, isCross)) {
             writer.println("Выбор бота");
             PrintBoard(board);
-            return !IsFinished(board);
+            return IsRunning(board);
         }
         PrintBoard(board);
         throw new Exception(x + "," + y + " was incorrect bot choice");
@@ -82,24 +82,22 @@ public class Bot {
                 writer.println("Ваш выбор");
                 PrintBoard(board);
             } catch (Exception e ) {
-
+                writer.println("Координаты не верны");
             }
         }
-        return !IsFinished(board);
+        return IsRunning(board);
     }
 
-    private boolean IsFinished(int[][] board) {
+    private boolean IsRunning(int[][] board) {
         for (var i = 0; i < board.length; i++) {
             if (SumSeries(new Point(i,0), new Point(0, 1), board) == 3)
-                return true;
+                return false;
             if (SumSeries(new Point(0,i), new Point(1, 0), board) == 3)
-                return true;
+                return false;
         }
         if (SumSeries(new Point(0, 0), new Point(1,1), board) == 3)
-            return true;
-        if (SumSeries(new Point(0, 2), new Point(1, -1), board) == 3)
-            return true;
-        return false;
+            return false;
+        return SumSeries(new Point(0, 2), new Point(1, -1), board) != 3;
     }
 
     private int SumSeries(Point anchor, Point vector, int[][] board) {
@@ -164,11 +162,10 @@ public class Bot {
     }
 
     public void StartConversation() throws IOException, ParseException {
-        var knowledgeQuestions = new Knowledge();
         int questionPointer = 0;
         var refused = false;
         writer.println("Сейчас я буду задавать личные вопросы, постарайся отвечать честно!");
-        while (questionPointer < Knowledge.questionVariations.keySet().toArray().length) {
+        while (questionPointer < knowledge.questionVariations.keySet().toArray().length) {
             var questionType = GetQuestion(questionPointer);
             Ask(questionType);
 
@@ -200,17 +197,17 @@ public class Bot {
             }
             Approve();
             questionPointer++;
-            if (!knowledge.containsKey(questionType))
-                knowledge.put(questionType, new ArrayList<>());
-            knowledge.get(questionType).add(answer);
+            if (!knowledgeAnswers.containsKey(questionType))
+                knowledgeAnswers.put(questionType, new ArrayList<>());
+            knowledgeAnswers.get(questionType).add(answer);
         }
-        writer.println(knowledge);
-        var info = ProcessData(knowledge);
+        writer.println(knowledgeAnswers);
+        var info = ProcessData(knowledgeAnswers);
         writer.println("Вот интересная информация о тебе: " + info);
     }
 
     private void Learn(String answer, String questionType) {
-        var list = Knowledge.validAnswers.get(questionType);
+        var list = knowledge.validAnswers.get(questionType);
         list.add(answer);
     }
 
@@ -223,15 +220,15 @@ public class Bot {
     }
 
     private void Refuse() {
-        writer.println(GetRandomItem(Knowledge.botRefuse));
+        writer.println(GetRandomItem(knowledge.botRefuse));
     }
 
     private void Approve() {
-        writer.println(GetRandomItem(Knowledge.botApprove));
+        writer.println(GetRandomItem(knowledge.botApprove));
     }
 
     private boolean IsValid(String answer, String type) {
-        var list = Knowledge.validAnswers.get(type);
+        var list = knowledge.validAnswers.get(type);
         return list.contains(answer);
     }
 
@@ -243,13 +240,13 @@ public class Bot {
     }
 
     private void Ask(String type) {
-        var questions = Knowledge.questionVariations.get(type);
+        var questions = knowledge.questionVariations.get(type);
         var question = GetRandomItem(questions);
         writer.println(question);
     }
 
     private String GetQuestion(int pointer) {
-        var array = Knowledge.questionVariations.keySet().toArray();
+        var array = knowledge.questionVariations.keySet().toArray();
         return array[pointer].toString();
     }
 }
