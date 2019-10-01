@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,9 +9,10 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 
-public class Knowledge {
-    public Knowledge() throws IOException, ParseException {
-        Object obj = new JSONParser().parse(new FileReader("/Users/irusland/Desktop/UrFU/Java/chat-bot-java/project/src/knowledge.json"));
+public class knowledge {
+    public knowledge() throws IOException, ParseException {
+        File file = new File ("project/src/knowledge.json");
+        Object obj = new JSONParser().parse(new FileReader(file.getAbsoluteFile()));
         System.out.println(obj);
         JSONObject jo = (JSONObject) obj;
 
