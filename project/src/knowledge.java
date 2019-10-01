@@ -11,8 +11,12 @@ import org.json.simple.parser.*;
 
 public class knowledge {
     public knowledge() throws IOException, ParseException {
+<<<<<<< HEAD:project/src/Knowledge.java
         File file = new File ("project/src/knowledge.json");
         Object obj = new JSONParser().parse(new FileReader(file.getAbsoluteFile()));
+=======
+        Object obj = new JSONParser().parse(new FileReader("/Users/irusland/Desktop/UrFU/Java/chat-bot-java/project/src/knowledge.json"));
+>>>>>>> parent of d624893... Refactoring:project/src/knowledge.java
         System.out.println(obj);
         JSONObject jo = (JSONObject) obj;
 
