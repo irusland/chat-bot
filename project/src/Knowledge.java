@@ -29,9 +29,9 @@ public class Knowledge {
 
     }
 
-    public static Map<String, ArrayList<String>> questionVariations = new HashMap<>();
-    public static Map<String, ArrayList<String>> validAnswers = new HashMap<>();
-    public static ArrayList<String> botApprove = new ArrayList<>();
-    public static ArrayList<String> botRefuse = new ArrayList<>();
+    public final Map<String, ArrayList<String>> questionVariations = new HashMap<>();
+    public final Map<String, ArrayList<String>> validAnswers = new HashMap<>();
+    public final ArrayList<String> botApprove;
+    public final ArrayList<String> botRefuse;
 
 }
