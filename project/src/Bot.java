@@ -12,12 +12,12 @@ public class Bot {
     private PrintStream writer;
     private List<String> a = new ArrayList<>() {};
     private Map<String, ArrayList<String>> knowledgeAnswers = new HashMap<>() {};
-    private knowledge knowledge;
+    private Knowledge knowledge;
 
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
-        knowledge = new knowledge();
+        knowledge = new Knowledge();
     }
 
     public void StartGame() throws Exception {
