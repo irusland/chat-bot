@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class App
 {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws Exception {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
         boolean started = false;
