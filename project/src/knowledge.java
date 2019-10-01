@@ -8,8 +8,8 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 
-public class Knowledge {
-    public Knowledge() throws IOException, ParseException {
+public class knowledge {
+    public knowledge() throws IOException, ParseException {
         Object obj = new JSONParser().parse(new FileReader("/Users/irusland/Desktop/UrFU/Java/chat-bot-java/project/src/knowledge.json"));
         System.out.println(obj);
         JSONObject jo = (JSONObject) obj;
