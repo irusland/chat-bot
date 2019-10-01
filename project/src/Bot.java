@@ -16,13 +16,13 @@ public class Bot {
 =======
     private List<String> a = new ArrayList<>() {};
     private Map<String, ArrayList<String>> knowledgeAnswers = new HashMap<>() {};
-    private knowledge knowledge;
+    private Knowledge knowledge;
 
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
 >>>>>>> 6315ce5... Ext lib added
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
-        knowledge = new knowledge();
+        knowledge = new Knowledge();
     }
 
 <<<<<<< HEAD
