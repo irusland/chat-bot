@@ -40,8 +40,11 @@ public class App
                     started = false;
                         break;
                 default:
+<<<<<<< HEAD
 //                    String answer = bot.Ask(expression);
 //                    System.out.println(answer);
+=======
+>>>>>>> 09afcd1... TicTacToe Done
                         break;
             }
         }

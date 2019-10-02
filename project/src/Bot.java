@@ -6,10 +6,9 @@ import java.util.*;
 import java.util.List;
 
 public class Bot {
-
-    private String name;
     private BufferedReader reader;
     private PrintStream writer;
+<<<<<<< HEAD
 <<<<<<< HEAD
     public Bot(InputStream in, PrintStream out)
     {
@@ -17,12 +16,13 @@ public class Bot {
     private List<String> a = new ArrayList<>() {};
     private Map<String, ArrayList<String>> knowledgeAnswers = new HashMap<>() {};
     private Knowledge knowledge;
+=======
+>>>>>>> 09afcd1... TicTacToe Done
 
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
 >>>>>>> 6315ce5... Ext lib added
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
-        knowledge = new Knowledge();
     }
 
 <<<<<<< HEAD
@@ -46,6 +46,7 @@ public class Bot {
         while (!inGame) {
             writer.println("За кого играем?");
             var choise = reader.readLine();
+<<<<<<< HEAD
             if (choise.equals("X")  || choise.equals("x")) {
                 isCross = true;
                 inGame = true;
@@ -101,6 +102,12 @@ public class Bot {
                 PrintBoard(board);
             } catch (Exception e ) {
                 writer.println("Координаты не верны");
+=======
+            switch (choise) {
+                case "/xo":
+                    Play(new TicTacToe(3));
+                    break;
+>>>>>>> 09afcd1... TicTacToe Done
             }
         }
         return IsRunning(board);
@@ -127,6 +134,7 @@ public class Bot {
         }
         return Math.abs(sum);
     }
+<<<<<<< HEAD
 
     private void Clear(int[][] board) {
         for (var i = 0; i < board.length; i++) {
@@ -341,5 +349,7 @@ public class Bot {
         return array[pointer].toString();
 >>>>>>> 032ce09... JSON Done
     }
+=======
+>>>>>>> 09afcd1... TicTacToe Done
 }
 
