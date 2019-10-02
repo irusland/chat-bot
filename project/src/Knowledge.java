@@ -13,7 +13,7 @@ public class Knowledge {
     public Knowledge() throws IOException, ParseException {
         File file = new File ("project/src/knowledge.json");
         Object obj = new JSONParser().parse(new FileReader(file.getAbsoluteFile()));
-        System.out.println(obj);
+//        System.out.println(obj);
         JSONObject jo = (JSONObject) obj;
 
         JSONObject questions = (JSONObject) jo.get("questionVariations");
