@@ -3,20 +3,16 @@ import java.io.IOException;
 import java.util.Random;
 
 public class TicTacToe implements Game {
-    private boolean inGame;
-    private boolean isCross; //TODO enum
     private Cell playerCell;
-    private Board board;
+    private final Board board;
 
 
-    public TicTacToe() {
-
+    public TicTacToe(Integer size) {
+        board = new Board(size);
     }
 
     public String Start() {
-        var inGame = false;
-        board = new Board(3);
-        return "Game started with size 3 choose side X | O";
+        return "Game started with " + board.size + "x" + board.size + " choose side X | O";
     }
 
     public String Request(String query) throws Exception {
@@ -39,11 +35,13 @@ public class TicTacToe implements Game {
             return "Не верные координаты";
         }
         var answer = Turn(x, y);
+        if (answer.hasAnError)
+            return answer.info;
         if (IsFinished())
-            return answer + board.toString();
+            return "Игра окончена победа: " + playerCell;
         var banswer = BotTurn();
         if (IsFinished())
-            return banswer + board.toString();
+            return "Игра окончена победа: " + playerCell.Not();
         return board.toString();
     }
 
@@ -67,7 +65,7 @@ public class TicTacToe implements Game {
     private Response Turn(int x, int y) {
         if(board.TrySetCell(x, y, playerCell))
             return new Response(false, board.toString());
-        return new Response(true, "Выберите другие координаты" + board.toString());
+        return new Response(true, "Выберите другие координаты \n" + board.toString());
     }
 
     private enum Cell {
@@ -83,11 +81,11 @@ public class TicTacToe implements Game {
             this.string = string;
         }
 
-        public void Or(Cell next) {
+        public Cell Or(Cell next) {
             if (next.value != Cell.Free.value) {
-                this.value = next.value;
-                this.string = next.string;
+                return next;
             }
+            return this;
         }
 
         public Cell Not() throws Exception {
@@ -98,18 +96,14 @@ public class TicTacToe implements Game {
             return Cell.Cross;
         }
 
+        public boolean equals(Cell other) {
+            return this.value==other.value;
+        }
+
         @Override
         public String toString() {
             return this.string;
         }
-    //
-    //            public int GetValue() {
-    //                return(value);
-    //            }
-    //
-    //            public String ToString() {
-    //                return(string);
-    //            }
     }
 
     private static class Board {
@@ -159,11 +153,11 @@ public class TicTacToe implements Game {
         public Cell GetWinner() {
             Cell winner = Cell.Free;
             for (var i = 0; i < size; i++) {
-                winner.Or(GetWinnerInRow(new Point(i,0), new Point(0, 1)));
-                winner.Or(GetWinnerInRow(new Point(0,i), new Point(1, 0)));
+                winner = winner.Or(GetWinnerInRow(new Point(i,0), new Point(0, 1)));
+                winner = winner.Or(GetWinnerInRow(new Point(0,i), new Point(1, 0)));
             }
-            winner.Or(GetWinnerInRow(new Point(0, 0), new Point(1,1)));
-            winner.Or(GetWinnerInRow(new Point(0, 2), new Point(1, -1)));
+            winner = winner.Or(GetWinnerInRow(new Point(0, 0), new Point(1,1)));
+            winner = winner.Or(GetWinnerInRow(new Point(0, 2), new Point(1, -1)));
             return winner;
         }
 

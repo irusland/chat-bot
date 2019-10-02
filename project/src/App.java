@@ -26,7 +26,7 @@ public class App
                     bot.Start();
                         break;
                 default:
-                        return;
+                        break;
             }
         }
     }
