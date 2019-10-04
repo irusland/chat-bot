@@ -24,6 +24,9 @@ public class Bot {
                 case "/xo":
                     Play(new TicTacToe(3));
                     break;
+                case "/ship":
+                    Play(new ShipWars());
+                    break;
             }
         }
     }

@@ -71,7 +71,7 @@ public class TicTacToe implements Game {
     private enum Cell {
         Free(0, " "),
         Cross(1, "X"),
-        Zero(-1, "O");
+        Zero(-1, "S");
 
         private int value;
         private String string;
