@@ -1,40 +1,40 @@
-import javax.xml.stream.FactoryConfigurationError;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.*;
 
 public class ShipWars implements Game {
+    private final Board board;
     public ShipWars() {
-
+        board = new Board(8);
     }
 
     public String Start() {
-        return null;
+        board.Shuffle();
+        return "Game generated \n" + board.toString();
     }
 
     public String Request(String query) throws Exception {
-        return null;
+        return board.toString();
     }
 
     public Boolean IsFinished() {
-        return null;
+        return false;
     }
 
     private class Board {
 
         public final int size;
-        private final ShipShard[][] board;
+        private final GameTile[][] board;
 
         public Board(int size) {
             this.size = size;
-            board = new ShipShard[size][size];
+            board = new GameTile[size][size];
             Clear();
         }
 
         private void Clear() {
             for (var i = 0; i < size; i++) {
                 for (var j = 0; j < size; j++) {
-                    board[j][i] = null;
+                    board[j][i] = new Water();
                 }
             }
         }
@@ -48,9 +48,11 @@ public class ShipWars implements Game {
 
             for (var i = 0; i < size; i++) {
                 builder.append("|");
+
                 for (var j = 0; j < size; j++) {
                     builder.append(board[j][i]);
                 }
+
                 builder.append("|\n");
             }
             builder.append("└");
@@ -62,24 +64,34 @@ public class ShipWars implements Game {
 
         private boolean TrySetShip(Point anchor, Point direction, int length) {
             if (IsFreeSpace(anchor, direction, length)) {
-                VectorToShardShip(anchor, direction, length);
+                VectorToLinkedShip(anchor, direction, length);
+                return true;
             }
+            return false;
         }
 
-        private void VectorToShardShip(Point anchor, Point direction, int shipLength) {
+        private void VectorToLinkedShip(Point anchor, Point direction, int shipLength) {
+            System.out.println(anchor + " " + direction + " " + shipLength);
             for (var i = 0; i < shipLength; i++) {
                 var position = new Point(anchor.x + direction.x * i,anchor.y + direction.y * i);
-                var current = new ShipShard(position, null);
+                var current = new ShipShard(position, null, null, shipLength);
                 board[position.x][position.y] = current;
-                if (i > 0) {
-                    var prevPos = new Point(anchor.x + direction.x * (i - 1),anchor.y + direction.y * (i - 1));
-                    board[prevPos.x][prevPos.y] = current;
+            }
+            if (shipLength == 1)
+                return;
+            for (var i = 0; i < shipLength; i++) {
+                var current = new Point(anchor.x + direction.x * i,anchor.y + direction.y * i);
+                var previous = new Point(anchor.x + direction.x * (i - 1),anchor.y + direction.y * (i - 1));
+                var next = new Point(anchor.x + direction.x * (i + 1),anchor.y + direction.y * (i + 1));
+                if (i == 0) {
+                    ((ShipShard)board[current.x][current.y]).back = (ShipShard) board[next.x][next.y];
+                } else if (i == shipLength - 1) {
+                    ((ShipShard)board[current.x][current.y]).front = (ShipShard) board[previous.x][previous.y];
+                } else {
+                    ((ShipShard)board[current.x][current.y]).back = (ShipShard) board[next.x][next.y];
+                    ((ShipShard)board[current.x][current.y]).front = (ShipShard) board[previous.x][previous.y];
                 }
             }
-        }
-
-        private ShipShard GetCell(Point position) {
-            return board[position.x][position.y];
         }
 
         private boolean IsFreeSpace(Point anchor, Point direction, int length) {
@@ -95,25 +107,101 @@ public class ShipWars implements Game {
         private boolean IsFreeArea(Point point) {
             var isFree = true;
             var offsets = new int[] {-1, 0, 1};
+            try {
+                var a = board[point.x ][point.y];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return false;
+            }
             for (int dx : offsets) {
                 for (int dy : offsets) {
-                    if (board[point.x + dx][point.y + dy] != null)
-                        isFree = false;
+                    try {
+                        if (!(board[point.x + dx][point.y + dy] instanceof Water))
+                            return false;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+
+                    }
                 }
             }
             return isFree;
         }
-    }
 
-    private class ShipShard {
-        public Point anchor;
-        public ShipShard next;
+        public void Shuffle() {
+            var directions = new ArrayList<Point>();
+            directions.add(new Point(0, 1));
+            directions.add(new Point(0, -1));
+            directions.add(new Point(1, 0));
+            directions.add(new Point(-1, 0));
 
-        public ShipShard(Point anchor, ShipShard next) {
-            this.anchor = anchor;
-            this.next = next;
+            var ships = new HashMap<Integer, Integer>();
+            ships.put(1, 4);
+            ships.put(2, 3);
+            ships.put(3, 2);
+            ships.put(4, 1);
+
+            var rnd = new Random();
+            var currLength = 4;
+            while (!IsEmpty(ships) ) {
+                System.out.println(toString());
+                var set = false;
+                var dirPointer = 0;
+                while (!set) {
+                    var x = rnd.nextInt(size);
+                    var y = rnd.nextInt(size);
+                    var anchor = new Point(x, y);
+                    var dir = directions.get(dirPointer);
+                    var length = ships.get(currLength);
+                    if (TrySetShip(anchor, dir, length)) {
+                        set = true;
+                        ships.put(currLength, ships.get(currLength) - 1);
+                        if (ships.get(currLength) == 0)
+                            currLength--;
+                    }
+                    dirPointer = (dirPointer + 1) % 4;
+                }
+            }
         }
 
+        private boolean IsEmpty(HashMap<Integer, Integer> ships) {
+            for (var l : ships.keySet()) {
+                if (ships.get(l) > 0)
+                    return false;
+            }
+            return true;
+        }
+    }
 
+    private class Water implements GameTile {
+        public String toString() {
+            return ".";
+        }
+    }
+
+    private class Miss implements GameTile {
+        public String toString() {
+            return "^";
+        }
+    }
+
+    public class ShipShard implements GameTile {
+        public Point anchor;
+        public ShipShard back;
+        public ShipShard front;
+        public boolean isAlive;
+        public int length;
+
+        public ShipShard(Point anchor, ShipShard front, ShipShard back, int len) {
+            this.anchor = anchor;
+            this.front = front;
+            this.back = back;
+            isAlive = true;
+            length = len;
+        }
+
+        @Override
+        public String toString() {
+            if (isAlive)
+                return "" + length;
+            return "X";
+        }
     }
 }
