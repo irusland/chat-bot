@@ -13,7 +13,18 @@ public class ShipWars implements Game {
     }
 
     public String Request(String query) throws Exception {
-        return board.toString();
+        var x = 0;
+        var y = 0;
+        try {
+            x = Integer.parseInt(Character.toString(query.charAt(0)));
+            y = Integer.parseInt(Character.toString(query.charAt(1)));
+        } catch (Exception e) {
+            return "Не верные координаты";
+        }
+        if (board.Shoot(new Point(x, y))) {
+            return "Ранил \n" + board.toString();
+        }
+        return "Мимо \n" + board.toString();
     }
 
     public Boolean IsFinished() {
@@ -42,21 +53,22 @@ public class ShipWars implements Game {
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
-            builder.append("┌");
-            builder.append("-".repeat(Math.max(0, size)));
+            builder.append("┌ ");
+            builder.append("- ".repeat(Math.max(0, size)));
             builder.append("┐\n");
 
             for (var i = 0; i < size; i++) {
-                builder.append("|");
+                builder.append("| ");
 
                 for (var j = 0; j < size; j++) {
                     builder.append(board[j][i]);
+                    builder.append(" ");
                 }
 
                 builder.append("|\n");
             }
-            builder.append("└");
-            builder.append("-".repeat(Math.max(0, size)));
+            builder.append("└ ");
+            builder.append("- ".repeat(Math.max(0, size)));
             builder.append("┘\n");
 
             return builder.toString();
@@ -71,7 +83,6 @@ public class ShipWars implements Game {
         }
 
         private void VectorToLinkedShip(Point anchor, Point direction, int shipLength) {
-            System.out.println(anchor + " " + direction + " " + shipLength);
             for (var i = 0; i < shipLength; i++) {
                 var position = new Point(anchor.x + direction.x * i,anchor.y + direction.y * i);
                 var current = new ShipShard(position, null, null, shipLength);
@@ -141,7 +152,6 @@ public class ShipWars implements Game {
             var rnd = new Random();
             var currLength = 4;
             while (!IsEmpty(ships) ) {
-                System.out.println(toString());
                 var set = false;
                 var dirPointer = 0;
                 while (!set) {
@@ -167,6 +177,24 @@ public class ShipWars implements Game {
                     return false;
             }
             return true;
+        }
+
+        private boolean Shoot(Point aim) {
+            try {
+                var tile = board[aim.x][aim.y];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return false;
+            }
+            var tile = board[aim.x][aim.y];
+            if (tile instanceof ShipShard) {
+                ((ShipShard) tile).isAlive = false;
+                return true;
+            }
+            if (tile instanceof Water) {
+                board[aim.x][aim.y] = new Miss();
+                return false;
+            }
+            return false;
         }
     }
 
