@@ -88,7 +88,7 @@ public class Bot {
         return IsRunning(board);
     }
 
-    private boolean IsRunning(int[][] board) {
+    public boolean IsRunning(int[][] board) {
         for (var i = 0; i < board.length; i++) {
             if (SumSeries(new Point(i,0), new Point(0, 1), board) == 3)
                 return false;
@@ -110,7 +110,7 @@ public class Bot {
         return Math.abs(sum);
     }
 
-    private void Clear(int[][] board) {
+    public void Clear(int[][] board) {
         for (var i = 0; i < board.length; i++) {
             for (var j = 0; j < board.length; j++) {
                 board[j][i] = 0;
