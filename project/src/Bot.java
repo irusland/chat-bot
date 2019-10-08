@@ -1,9 +1,9 @@
+import game.Game;
+import game.shipwars.ShipWars;
+import game.tictactoe.TicTacToe;
 import org.json.simple.parser.ParseException;
 
-import java.awt.*;
 import java.io.*;
-import java.util.*;
-import java.util.List;
 
 public class Bot {
     private BufferedReader reader;
