@@ -9,8 +9,8 @@ public class TicTacToe implements Game {
     private final Board board;
 
 
-    public TicTacToe(Integer size) {
-        board = new Board(size);
+    public TicTacToe() {
+        board = new Board(3);
     }
 
     public String Start() {

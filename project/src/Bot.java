@@ -4,10 +4,13 @@ import game.tictactoe.TicTacToe;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 public class Bot {
     private BufferedReader reader;
     private PrintStream writer;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     public Bot(InputStream in, PrintStream out)
@@ -18,11 +21,15 @@ public class Bot {
     private Knowledge knowledge;
 =======
 >>>>>>> 09afcd1... TicTacToe Done
+=======
+    private ArrayList<Game> processes;
+>>>>>>> 8dc8dd4... Async games
 
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
 >>>>>>> 6315ce5... Ext lib added
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
+        processes = new ArrayList<>();
     }
 
 <<<<<<< HEAD
@@ -105,8 +112,9 @@ public class Bot {
 =======
             switch (choise) {
                 case "/xo":
-                    Play(new TicTacToe(3));
+                    Play(TicTacToe.class);
                     break;
+<<<<<<< HEAD
 >>>>>>> 09afcd1... TicTacToe Done
             }
         }
@@ -176,6 +184,11 @@ public class Bot {
                 board[x][y] = 1;
             } else {
                 board[x][y] = -1;
+=======
+                case "/ship":
+                    Play(ShipWars.class);
+                    break;
+>>>>>>> 8dc8dd4... Async games
             }
             return true;
         }
@@ -205,6 +218,7 @@ public class Bot {
             var questionType = GetQuestion(questionPointer);
             Ask(questionType);
 
+<<<<<<< HEAD
             String answer = reader.readLine();
             if (!IsValid(answer, questionType)) {
                 var previous = answer;
@@ -236,6 +250,43 @@ public class Bot {
             if (!knowledgeAnswers.containsKey(questionType))
                 knowledgeAnswers.put(questionType, new ArrayList<>());
             knowledgeAnswers.get(questionType).add(answer);
+=======
+    private void Play(Class cls) throws Exception {
+        System.out.println("Playing " + cls.toString());
+        var classFound = false;
+        Game game = null;
+        for (var proc : processes) {
+            if (proc.getClass().isAssignableFrom(cls)) {
+                classFound = true;
+                game = proc;
+                break;
+            }
+        }
+        if (classFound) {
+            Continue(game);
+        } else {
+            game = Restore(cls);
+            processes.add(game);
+            Continue(game);
+        }
+    }
+
+    private Game Restore(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        Game game = (Game)cls.getDeclaredConstructor().newInstance();
+        writer.println(game.Start());
+        return game;
+    }
+
+    private void Continue(Game game) throws Exception {
+        while (!game.IsFinished()) {
+            var query = reader.readLine();
+            if (query.equals("/pause")) {
+                writer.println("Game paused");
+                break;
+            }
+            var response = game.Request(query);
+            writer.println(response);
+>>>>>>> 8dc8dd4... Async games
         }
         writer.println(knowledgeAnswers);
         var info = ProcessData(knowledgeAnswers);
@@ -349,7 +400,12 @@ public class Bot {
         return array[pointer].toString();
 >>>>>>> 032ce09... JSON Done
     }
+<<<<<<< HEAD
 =======
 >>>>>>> 09afcd1... TicTacToe Done
+=======
+
+
+>>>>>>> 8dc8dd4... Async games
 }
 
