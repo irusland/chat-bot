@@ -3,16 +3,25 @@ import java.util.*;
 
 public class ShipWars implements Game {
     private final Board board;
+    private final Board opponentBoard;
+    private final GameBot opponent;
+    private boolean prepared;
     public ShipWars() {
-        board = new Board(8);
+        var size = 10;
+        board = new Board(size);
+        opponentBoard = new Board(size);
+        opponent = new GameBot(opponentBoard);
+        prepared = false;
     }
 
     public String Start() {
         board.Shuffle();
-        return "Game generated \n" + board.toString();
+        opponentBoard.Shuffle();
+        return "Game generated \n" + board.toString() + opponentBoard.toOpponentString();
     }
 
     public String Request(String query) throws Exception {
+        board.Shoot(opponent.GetChoice());
         var x = 0;
         var y = 0;
         try {
@@ -21,13 +30,17 @@ public class ShipWars implements Game {
         } catch (Exception e) {
             return "Не верные координаты";
         }
-        if (board.Shoot(new Point(x, y))) {
-            return "Ранил \n" + board.toString();
+        if (opponentBoard.Shoot(new Point(x, y))) {
+            return "Ранил \n" + board.toString() + opponentBoard.toOpponentString();
         }
-        return "Мимо \n" + board.toString();
+        return "Мимо \n" + board.toString() + opponentBoard.toOpponentString();
     }
 
     public Boolean IsFinished() {
+        var humanShipsCount = board.GetShipsAlive();
+        var botShipsCount = opponentBoard.GetShipsAlive();
+        if (humanShipsCount == 0 || botShipsCount == 0)
+            return true;
         return false;
     }
 
@@ -62,6 +75,29 @@ public class ShipWars implements Game {
 
                 for (var j = 0; j < size; j++) {
                     builder.append(board[j][i]);
+                    builder.append(" ");
+                }
+
+                builder.append("|\n");
+            }
+            builder.append("└ ");
+            builder.append("- ".repeat(Math.max(0, size)));
+            builder.append("┘\n");
+
+            return builder.toString();
+        }
+
+        public String toOpponentString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("┌ ");
+            builder.append("- ".repeat(Math.max(0, size)));
+            builder.append("┐\n");
+
+            for (var i = 0; i < size; i++) {
+                builder.append("| ");
+
+                for (var j = 0; j < size; j++) {
+                    builder.append(board[j][i].toOpponentString());
                     builder.append(" ");
                 }
 
@@ -196,17 +232,32 @@ public class ShipWars implements Game {
             }
             return false;
         }
+
+        public int GetShipsAlive() {
+            var shipsAlive = 0;
+            for (var y = 0; y < size; y++ ) {
+                for (var x = 0; x < size; x++ ) {
+                    if (board[x][y] instanceof ShipShard && ((ShipShard) board[x][y]).isAlive)
+                        shipsAlive++;
+                }
+            }
+            return shipsAlive;
+        }
     }
 
     private class Water implements GameTile {
         public String toString() {
             return ".";
         }
+        public String toOpponentString() { return toString();};
     }
 
     private class Miss implements GameTile {
         public String toString() {
             return "^";
+        }
+        public String toOpponentString() {
+            return toString();
         }
     }
 
@@ -216,6 +267,11 @@ public class ShipWars implements Game {
         public ShipShard front;
         public boolean isAlive;
         public int length;
+        public String toOpponentString() {
+            if (!isAlive)
+                return "X";
+            return new Water().toString();
+        }
 
         public ShipShard(Point anchor, ShipShard front, ShipShard back, int len) {
             this.anchor = anchor;
@@ -230,6 +286,20 @@ public class ShipWars implements Game {
             if (isAlive)
                 return "" + length;
             return "X";
+        }
+    }
+
+    private class GameBot {
+        private final Board board;
+        public GameBot(Board board1) {
+            board = board1;
+        }
+        public Point GetChoice() {
+            //TODO SOME CHOOSING LOGIC
+            var rnd = new Random();
+            var x = rnd.nextInt(board.size);
+            var y = rnd.nextInt(board.size);
+            return new Point(x,y);
         }
     }
 }
