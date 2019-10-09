@@ -105,7 +105,7 @@ public class Conversation implements Game {
     }
 
     @Override
-    public String Start() {
+    public String Load() {
         return null;
     }
 

@@ -7,7 +7,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public class Bot {
+class Bot {
     private BufferedReader reader;
     private PrintStream writer;
 <<<<<<< HEAD
@@ -25,13 +25,18 @@ public class Bot {
     private ArrayList<Game> processes;
 >>>>>>> 8dc8dd4... Async games
 
+<<<<<<< HEAD
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
 >>>>>>> 6315ce5... Ext lib added
+=======
+    Bot(InputStream in, PrintStream out) {
+>>>>>>> a2a42b6... Pausing games added
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
         processes = new ArrayList<>();
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     private Map<String, String[]> questionVariations = new HashMap<>() {{
         put("name", new String[] {"Как тебя зовут?", "Как имя твоё?", "Какое у тебя имя?"});
@@ -52,6 +57,13 @@ public class Bot {
         Clear(board);
         while (!inGame) {
             writer.println("За кого играем?");
+=======
+    void Start() throws Exception {
+        while (true) {
+            writer.println("Выбери игру");
+            writer.println("/xo");
+            writer.println("/ship");
+>>>>>>> a2a42b6... Pausing games added
             var choise = reader.readLine();
 <<<<<<< HEAD
             if (choise.equals("X")  || choise.equals("x")) {
@@ -188,7 +200,12 @@ public class Bot {
                 case "/ship":
                     Play(ShipWars.class);
                     break;
+<<<<<<< HEAD
 >>>>>>> 8dc8dd4... Async games
+=======
+                case "/exit":
+                    return;
+>>>>>>> a2a42b6... Pausing games added
             }
             return true;
         }
@@ -252,7 +269,7 @@ public class Bot {
             knowledgeAnswers.get(questionType).add(answer);
 =======
     private void Play(Class cls) throws Exception {
-        System.out.println("Playing " + cls.toString());
+        System.out.println("Playing " + cls.getSimpleName());
         var classFound = false;
         Game game = null;
         for (var proc : processes) {
@@ -265,19 +282,18 @@ public class Bot {
         if (classFound) {
             Continue(game);
         } else {
-            game = Restore(cls);
+            game = Create(cls);
             processes.add(game);
             Continue(game);
         }
     }
 
-    private Game Restore(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Game game = (Game)cls.getDeclaredConstructor().newInstance();
-        writer.println(game.Start());
-        return game;
+    private Game Create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        return (Game)cls.getDeclaredConstructor().newInstance();
     }
 
     private void Continue(Game game) throws Exception {
+        writer.println(game.Load());
         while (!game.IsFinished()) {
             var query = reader.readLine();
             if (query.equals("/pause")) {
