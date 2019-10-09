@@ -1,4 +1,5 @@
 import game.Game;
+import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
 import org.json.simple.parser.ParseException;
@@ -23,6 +24,7 @@ class Bot {
             writer.println("Выбери игру");
             writer.println("/xo");
             writer.println("/ship");
+            writer.println("/calc");
             var choise = reader.readLine();
             switch (choise) {
                 case "/xo":
@@ -30,6 +32,9 @@ class Bot {
                     break;
                 case "/ship":
                     Play(ShipWars.class);
+                    break;
+                case "/calc":
+                    Play(Calculator.class);
                     break;
                 case "/exit":
                     return;
@@ -63,7 +68,11 @@ class Bot {
 
     private void Continue(Game game) throws Exception {
         writer.println(game.Load());
-        while (!game.IsFinished()) {
+        while (true) {
+            if (game.IsFinished()) {
+                processes.remove(game);
+                break;
+            }
             var query = reader.readLine();
             if (query.equals("/pause")) {
                 writer.println("Game paused");
