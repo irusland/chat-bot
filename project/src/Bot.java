@@ -1,4 +1,5 @@
 import game.Game;
+import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
 import org.json.simple.parser.ParseException;
@@ -63,7 +64,11 @@ class Bot {
             writer.println("Выбери игру");
             writer.println("/xo");
             writer.println("/ship");
+<<<<<<< HEAD
 >>>>>>> a2a42b6... Pausing games added
+=======
+            writer.println("/calc");
+>>>>>>> 1ac8d43... Calcucator done
             var choise = reader.readLine();
 <<<<<<< HEAD
             if (choise.equals("X")  || choise.equals("x")) {
@@ -201,8 +206,14 @@ class Bot {
                     Play(ShipWars.class);
                     break;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 8dc8dd4... Async games
 =======
+=======
+                case "/calc":
+                    Play(Calculator.class);
+                    break;
+>>>>>>> 1ac8d43... Calcucator done
                 case "/exit":
                     return;
 >>>>>>> a2a42b6... Pausing games added
@@ -294,7 +305,11 @@ class Bot {
 
     private void Continue(Game game) throws Exception {
         writer.println(game.Load());
-        while (!game.IsFinished()) {
+        while (true) {
+            if (game.IsFinished()) {
+                processes.remove(game);
+                break;
+            }
             var query = reader.readLine();
             if (query.equals("/pause")) {
                 writer.println("Game paused");
