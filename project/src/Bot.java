@@ -7,18 +7,18 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public class Bot {
+class Bot {
     private BufferedReader reader;
     private PrintStream writer;
     private ArrayList<Game> processes;
 
-    public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
+    Bot(InputStream in, PrintStream out) {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
         processes = new ArrayList<>();
     }
 
-    public void Start() throws Exception {
+    void Start() throws Exception {
         while (true) {
             writer.println("Выбери игру");
             writer.println("/xo");
@@ -31,12 +31,14 @@ public class Bot {
                 case "/ship":
                     Play(ShipWars.class);
                     break;
+                case "/exit":
+                    return;
             }
         }
     }
 
     private void Play(Class cls) throws Exception {
-        System.out.println("Playing " + cls.toString());
+        System.out.println("Playing " + cls.getSimpleName());
         var classFound = false;
         Game game = null;
         for (var proc : processes) {
@@ -49,19 +51,18 @@ public class Bot {
         if (classFound) {
             Continue(game);
         } else {
-            game = Restore(cls);
+            game = Create(cls);
             processes.add(game);
             Continue(game);
         }
     }
 
-    private Game Restore(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Game game = (Game)cls.getDeclaredConstructor().newInstance();
-        writer.println(game.Start());
-        return game;
+    private Game Create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        return (Game)cls.getDeclaredConstructor().newInstance();
     }
 
     private void Continue(Game game) throws Exception {
+        writer.println(game.Load());
         while (!game.IsFinished()) {
             var query = reader.readLine();
             if (query.equals("/pause")) {

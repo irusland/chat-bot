@@ -9,18 +9,21 @@ public class ShipWars implements Game {
     private final Board opponentBoard;
     private final GameBot opponent;
     private boolean prepared;
+    private String cache;
+
     public ShipWars() {
         var size = 10;
         board = new Board(this, size);
         opponentBoard = new Board(this, size);
         opponent = new GameBot(opponentBoard);
         prepared = false;
-    }
-
-    public String Start() {
         board.Shuffle();
         opponentBoard.Shuffle();
-        return "game.Game generated \n" + board.toString() + opponentBoard.toOpponentString();
+        cache = "generated \n" + board.toString() + opponentBoard.toOpponentString();
+    }
+
+    public String Load() {
+        return cache;
     }
 
     public String Request(String query) throws Exception {
@@ -34,9 +37,11 @@ public class ShipWars implements Game {
             return "Не верные координаты";
         }
         if (opponentBoard.Shoot(new Point(x, y))) {
-            return "Ранил \n" + board.toString() + opponentBoard.toOpponentString();
+            cache = "\n" + "Ранил \n" + board.toString() + opponentBoard.toOpponentString();
+            return cache;
         }
-        return "Мимо \n" + board.toString() + opponentBoard.toOpponentString();
+        cache = "\n" + "Мимо \n" + board.toString() + opponentBoard.toOpponentString();
+        return cache;
     }
 
     public Boolean IsFinished() {

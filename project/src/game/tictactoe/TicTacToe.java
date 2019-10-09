@@ -7,14 +7,15 @@ import java.util.Random;
 public class TicTacToe implements Game {
     private Cell playerCell;
     private final Board board;
-
+    private String cache;
 
     public TicTacToe() {
         board = new Board(3);
+        cache = "started with " + board.size + "x" + board.size + " choose side X | O";
     }
 
-    public String Start() {
-        return "game.Game started with " + board.size + "x" + board.size + " choose side X | O";
+    public String Load() {
+        return cache;
     }
 
     public String Request(String query) throws Exception {
@@ -24,9 +25,11 @@ public class TicTacToe implements Game {
             } else if (query.equals(Cell.Zero.toString())) {
                 playerCell = Cell.Zero;
             } else {
-                return "Выберите X | O";
+                cache = "Выберите X | O";
+                return cache;
             }
-            return "Введите координаты";
+            cache = "Введите координаты";
+            return cache;
         }
         var x = 0;
         var y = 0;
@@ -34,16 +37,23 @@ public class TicTacToe implements Game {
             x = Integer.parseInt(Character.toString(query.charAt(0)));
             y = Integer.parseInt(Character.toString(query.charAt(1)));
         } catch (Exception e) {
-            return "Не верные координаты";
+            cache = "Не верные координаты";
+            return cache;
         }
         var answer = Turn(x, y);
-        if (answer.hasAnError)
-            return answer.info;
-        if (IsFinished())
-            return "Игра окончена победа: " + playerCell;
+        if (answer.hasAnError) {
+            cache = answer.info;
+            return cache;
+        }
+        if (IsFinished()) {
+            cache = "\n" + "Игра окончена победа: " + playerCell;
+            return cache;
+        }
         var banswer = BotTurn();
-        if (IsFinished())
-            return "Игра окончена победа: " + playerCell.Not();
+        if (IsFinished()) {
+            cache = "Игра окончена победа: " + playerCell.Not();
+            return cache;
+        }
         return board.toString();
     }
 
