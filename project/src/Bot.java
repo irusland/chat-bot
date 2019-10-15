@@ -1,12 +1,13 @@
 import game.Game;
+import game.Player;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class Bot {
     private BufferedReader reader;
@@ -24,7 +25,11 @@ class Bot {
 >>>>>>> 09afcd1... TicTacToe Done
 =======
     private ArrayList<Game> processes;
+<<<<<<< HEAD
 >>>>>>> 8dc8dd4... Async games
+=======
+    private HashMap<Player, ArrayList<Game>> players;
+>>>>>>> e0d6633... Players started
 
 <<<<<<< HEAD
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
@@ -35,6 +40,7 @@ class Bot {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
         processes = new ArrayList<>();
+        players = new HashMap<Player, ArrayList<Game>>();
     }
 
 <<<<<<< HEAD
@@ -216,7 +222,12 @@ class Bot {
 >>>>>>> 1ac8d43... Calcucator done
                 case "/exit":
                     return;
+<<<<<<< HEAD
 >>>>>>> a2a42b6... Pausing games added
+=======
+                default:
+                    writer.println("Неправильный выбор");
+>>>>>>> e0d6633... Players started
             }
             return true;
         }

@@ -1,14 +1,10 @@
 package game.calculator;
 
-import com.sun.management.VMOption;
+
 import game.Game;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class Calculator implements Game {
     private String cache;
