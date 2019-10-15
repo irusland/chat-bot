@@ -1,22 +1,25 @@
 import game.Game;
+import game.Player;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class Bot {
     private BufferedReader reader;
     private PrintStream writer;
     private ArrayList<Game> processes;
+    private HashMap<Player, ArrayList<Game>> players;
 
     Bot(InputStream in, PrintStream out) {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
         processes = new ArrayList<>();
+        players = new HashMap<Player, ArrayList<Game>>();
     }
 
     void Start() throws Exception {
@@ -38,6 +41,8 @@ class Bot {
                     break;
                 case "/exit":
                     return;
+                default:
+                    writer.println("Неправильный выбор");
             }
         }
     }
