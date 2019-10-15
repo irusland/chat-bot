@@ -6,12 +6,14 @@ import game.tictactoe.TicTacToe;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 class Bot {
     private BufferedReader reader;
     private PrintStream writer;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -30,6 +32,8 @@ class Bot {
 =======
     private HashMap<Player, ArrayList<Game>> players;
 >>>>>>> e0d6633... Players started
+=======
+>>>>>>> 8f67080... AuthSystem done
 
 <<<<<<< HEAD
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
@@ -39,8 +43,6 @@ class Bot {
 >>>>>>> a2a42b6... Pausing games added
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
-        processes = new ArrayList<>();
-        players = new HashMap<Player, ArrayList<Game>>();
     }
 
 <<<<<<< HEAD
@@ -67,6 +69,7 @@ class Bot {
 =======
     void Start() throws Exception {
         while (true) {
+<<<<<<< HEAD
             writer.println("Выбери игру");
             writer.println("/xo");
             writer.println("/ship");
@@ -228,6 +231,56 @@ class Bot {
                 default:
                     writer.println("Неправильный выбор");
 >>>>>>> e0d6633... Players started
+=======
+            while (!Auth.loggedIn) {
+                writer.println("Choose /login or /register or /exit");
+                var c = reader.readLine();
+                var name = "";
+                var pass = "";
+                var registered = false;
+                switch (c) {
+                    case "/register":
+                        name = getName();
+                        pass = getPass();
+                        register(name, pass);
+                        registered = true;
+                    case "/login":
+                        if (!registered) {
+                            name = getName();
+                            pass = getPass();
+                        }
+                        login(name, pass);
+                        break;
+                    case "/exit":
+                        return;
+                    default:
+                        break;
+                }
+            }
+            while (Auth.loggedIn) {
+                writer.println("Выбери игру");
+                writer.println("/xo");
+                writer.println("/ship");
+                writer.println("/calc");
+                writer.println("/logout");
+                var choice = reader.readLine();
+                switch (choice) {
+                    case "/xo":
+                        Play(TicTacToe.class);
+                        break;
+                    case "/ship":
+                        Play(ShipWars.class);
+                        break;
+                    case "/calc":
+                        Play(Calculator.class);
+                        break;
+                    case "/logout":
+                        Auth.logout();
+                        break;
+                    default:
+                        writer.println("Неправильный выбор");
+                }
+>>>>>>> 8f67080... AuthSystem done
             }
             return true;
         }
@@ -294,7 +347,7 @@ class Bot {
         System.out.println("Playing " + cls.getSimpleName());
         var classFound = false;
         Game game = null;
-        for (var proc : processes) {
+        for (var proc : Auth.getProcesses()) {
             if (proc.getClass().isAssignableFrom(cls)) {
                 classFound = true;
                 game = proc;
@@ -305,7 +358,7 @@ class Bot {
             Continue(game);
         } else {
             game = Create(cls);
-            processes.add(game);
+            Auth.getProcesses().add(game);
             Continue(game);
         }
     }
@@ -318,7 +371,7 @@ class Bot {
         writer.println(game.Load());
         while (true) {
             if (game.IsFinished()) {
-                processes.remove(game);
+                Auth.getProcesses().remove(game);
                 break;
             }
             var query = reader.readLine();
@@ -447,7 +500,26 @@ class Bot {
 >>>>>>> 09afcd1... TicTacToe Done
 =======
 
+    private void login(String name, String pass) {
+        writer.println(Auth.login(name, pass));
+    }
 
+    private void register(String name, String pass) {
+        writer.println(Auth.register(name, pass));
+    }
+
+<<<<<<< HEAD
 >>>>>>> 8dc8dd4... Async games
+=======
+    private String getName() throws IOException {
+        writer.println("Введите имя");
+        return reader.readLine();
+    }
+
+    private String getPass() throws IOException {
+        writer.println("Введите пароль");
+        return reader.readLine();
+    }
+>>>>>>> 8f67080... AuthSystem done
 }
 
