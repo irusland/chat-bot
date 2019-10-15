@@ -32,7 +32,13 @@ public class Calculator implements Game {
     @Override
     public String Request(String query) throws Exception {
         if (isOperand) {
-            var number = Integer.parseInt(query);
+            var number = 0;
+            try {
+                number = Integer.parseInt(query);
+            } catch (Exception e) {
+                cache = "Неправильный ввод";
+                return cache;
+            }
             if (operation == null) {
                 result = number;
             } else {

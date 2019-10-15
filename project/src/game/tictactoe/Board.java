@@ -77,10 +77,16 @@ class Board {
     }
 
     public boolean TrySetCell(int x, int y, Cell cell) {
+        try {
+
         if (IsFree(x, y)) {
             board[x][y] = cell;
             return true;
         }
         return false;
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

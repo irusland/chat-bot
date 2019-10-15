@@ -6,43 +6,69 @@ import game.tictactoe.TicTacToe;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 class Bot {
     private BufferedReader reader;
     private PrintStream writer;
-    private ArrayList<Game> processes;
-    private HashMap<Player, ArrayList<Game>> players;
 
     Bot(InputStream in, PrintStream out) {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
-        processes = new ArrayList<>();
-        players = new HashMap<Player, ArrayList<Game>>();
     }
 
     void Start() throws Exception {
         while (true) {
-            writer.println("Выбери игру");
-            writer.println("/xo");
-            writer.println("/ship");
-            writer.println("/calc");
-            var choise = reader.readLine();
-            switch (choise) {
-                case "/xo":
-                    Play(TicTacToe.class);
-                    break;
-                case "/ship":
-                    Play(ShipWars.class);
-                    break;
-                case "/calc":
-                    Play(Calculator.class);
-                    break;
-                case "/exit":
-                    return;
-                default:
-                    writer.println("Неправильный выбор");
+            while (!Auth.loggedIn) {
+                writer.println("Choose /login or /register or /exit");
+                var c = reader.readLine();
+                var name = "";
+                var pass = "";
+                var registered = false;
+                switch (c) {
+                    case "/register":
+                        name = getName();
+                        pass = getPass();
+                        register(name, pass);
+                        registered = true;
+                    case "/login":
+                        if (!registered) {
+                            name = getName();
+                            pass = getPass();
+                        }
+                        login(name, pass);
+                        break;
+                    case "/exit":
+                        return;
+                    default:
+                        break;
+                }
+            }
+            while (Auth.loggedIn) {
+                writer.println("Выбери игру");
+                writer.println("/xo");
+                writer.println("/ship");
+                writer.println("/calc");
+                writer.println("/logout");
+                var choice = reader.readLine();
+                switch (choice) {
+                    case "/xo":
+                        Play(TicTacToe.class);
+                        break;
+                    case "/ship":
+                        Play(ShipWars.class);
+                        break;
+                    case "/calc":
+                        Play(Calculator.class);
+                        break;
+                    case "/logout":
+                        Auth.logout();
+                        break;
+                    default:
+                        writer.println("Неправильный выбор");
+                }
             }
         }
     }
@@ -51,7 +77,7 @@ class Bot {
         System.out.println("Playing " + cls.getSimpleName());
         var classFound = false;
         Game game = null;
-        for (var proc : processes) {
+        for (var proc : Auth.getProcesses()) {
             if (proc.getClass().isAssignableFrom(cls)) {
                 classFound = true;
                 game = proc;
@@ -62,7 +88,7 @@ class Bot {
             Continue(game);
         } else {
             game = Create(cls);
-            processes.add(game);
+            Auth.getProcesses().add(game);
             Continue(game);
         }
     }
@@ -75,7 +101,7 @@ class Bot {
         writer.println(game.Load());
         while (true) {
             if (game.IsFinished()) {
-                processes.remove(game);
+                Auth.getProcesses().remove(game);
                 break;
             }
             var query = reader.readLine();
@@ -88,6 +114,22 @@ class Bot {
         }
     }
 
+    private void login(String name, String pass) {
+        writer.println(Auth.login(name, pass));
+    }
 
+    private void register(String name, String pass) {
+        writer.println(Auth.register(name, pass));
+    }
+
+    private String getName() throws IOException {
+        writer.println("Введите имя");
+        return reader.readLine();
+    }
+
+    private String getPass() throws IOException {
+        writer.println("Введите пароль");
+        return reader.readLine();
+    }
 }
 
