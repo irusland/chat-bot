@@ -1,15 +1,16 @@
+package auth;
+
 import game.Game;
 import game.Player;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 public class Auth implements Serializable {
     public static boolean loggedIn;
     private static Player currentPlayer;
+    private static final String storageName = "data.ser";
     private static HashMap<Player, ArrayList<Game>> playerProcesses = new HashMap<>();
     public static String login(String name, String pass) {
         var player = getPlayer(name, pass);
@@ -50,7 +51,7 @@ public class Auth implements Serializable {
     }
 
     public static void save() throws IOException {
-        FileOutputStream fos = new FileOutputStream("data.ser");
+        FileOutputStream fos = new FileOutputStream(storageName);
         ObjectOutputStream out = new ObjectOutputStream(fos);
         out.writeObject(playerProcesses);
         out.close();
@@ -59,7 +60,7 @@ public class Auth implements Serializable {
 
     public static void load() throws IOException, ClassNotFoundException {
         try {
-            FileInputStream fis = new FileInputStream("data.ser");
+            FileInputStream fis = new FileInputStream(storageName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             playerProcesses = (HashMap<Player, ArrayList<Game>>) ois.readObject();
             ois.close();

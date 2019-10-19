@@ -1,3 +1,4 @@
+import auth.Auth;
 import game.Game;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
