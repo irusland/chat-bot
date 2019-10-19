@@ -1,6 +1,8 @@
 package game.tictactoe;
 
-enum Cell {
+import java.io.Serializable;
+
+enum Cell implements Serializable {
     Free(0, " "),
     Cross(1, "X"),
     Zero(-1, "0");
@@ -8,19 +10,19 @@ enum Cell {
     int value;
     String string;
 
-    private Cell(int value, String string) {
+    Cell(int value, String string) {
         this.value = value;
         this.string = string;
     }
 
-    public Cell Or(Cell next) {
+    public Cell or(Cell next) {
         if (next.value != Cell.Free.value) {
             return next;
         }
         return this;
     }
 
-    public Cell Not() throws Exception {
+    public Cell not() throws Exception {
         if (this == Cell.Free)
             throw new Exception("Cannot invert Cell.Free");
         if (this == Cell.Cross)

@@ -1,8 +1,9 @@
 package game.tictactoe;
 
 import java.awt.*;
+import java.io.Serializable;
 
-class Board {
+class Board implements Serializable {
 
     public final int size;
     private final Cell[][] board;
@@ -10,10 +11,10 @@ class Board {
     public Board(int size) {
         this.size = size;
         board = new Cell[size][size];
-        Clear();
+        clear();
     }
 
-    private void Clear() {
+    private void clear() {
         for (var i = 0; i < size; i++) {
             for (var j = 0; j < size; j++) {
                 board[j][i] = Cell.Free;
@@ -46,18 +47,18 @@ class Board {
         return board[x][y] == Cell.Free;
     }
 
-    public Cell GetWinner() {
+    public Cell getWinner() {
         Cell winner = Cell.Free;
         for (var i = 0; i < size; i++) {
-            winner = winner.Or(GetWinnerInRow(new Point(i,0), new Point(0, 1)));
-            winner = winner.Or(GetWinnerInRow(new Point(0,i), new Point(1, 0)));
+            winner = winner.or(getWinnerInRow(new Point(i,0), new Point(0, 1)));
+            winner = winner.or(getWinnerInRow(new Point(0,i), new Point(1, 0)));
         }
-        winner = winner.Or(GetWinnerInRow(new Point(0, 0), new Point(1,1)));
-        winner = winner.Or(GetWinnerInRow(new Point(0, 2), new Point(1, -1)));
+        winner = winner.or(getWinnerInRow(new Point(0, 0), new Point(1,1)));
+        winner = winner.or(getWinnerInRow(new Point(0, 2), new Point(1, -1)));
         return winner;
     }
 
-    private Cell GetWinnerInRow(Point anchor, Point direction) {
+    private Cell getWinnerInRow(Point anchor, Point direction) {
         Point pos = new Point(anchor);
         var sum = 0;
         for (var i = 0; i < board.length; i++) {
@@ -76,7 +77,7 @@ class Board {
         return Cell.Free;
     }
 
-    public boolean TrySetCell(int x, int y, Cell cell) {
+    public boolean trySetCell(int x, int y, Cell cell) {
         try {
 
         if (IsFree(x, y)) {

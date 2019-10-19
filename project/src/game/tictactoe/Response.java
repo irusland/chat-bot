@@ -1,6 +1,8 @@
 package game.tictactoe;
 
-class Response {
+import java.io.Serializable;
+
+class Response implements Serializable {
     public String info;
     public boolean hasAnError;
 

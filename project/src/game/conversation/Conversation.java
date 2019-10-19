@@ -4,9 +4,10 @@ import game.Game;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class Conversation implements Game {
+public class Conversation implements Game, Serializable {
     private List<String> a = new ArrayList<>() {};
     private Map<String, ArrayList<String>> knowledgeAnswers = new HashMap<>() {};
     private Knowledge knowledge;
@@ -105,17 +106,17 @@ public class Conversation implements Game {
     }
 
     @Override
-    public String Load() {
+    public String load() {
         return null;
     }
 
     @Override
-    public String Request(String query) throws Exception {
+    public String request(String query) throws Exception {
         return null;
     }
 
     @Override
-    public Boolean IsFinished() {
+    public Boolean isFinished() {
         return null;
     }
 }

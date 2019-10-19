@@ -1,5 +1,3 @@
-import org.json.simple.parser.ParseException;
-
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,8 +34,12 @@ public class App
                 case "/start":
                     started = true;
                     bot = new Bot(System.in , System.out);
+<<<<<<< HEAD
                     bot.Start();
                     started = false;
+=======
+                    bot.start();
+>>>>>>> 9119878... Saving added & Global refactor
                         break;
                 default:
 <<<<<<< HEAD

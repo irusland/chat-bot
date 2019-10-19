@@ -1,11 +1,12 @@
 package game.shipwars;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-class Board {
+class Board implements Serializable {
 
     private ShipWars shipWars;
     public final int size;
@@ -15,10 +16,10 @@ class Board {
         this.shipWars = shipWars;
         this.size = size;
         board = new GameTile[size][size];
-        Clear();
+        clear();
     }
 
-    private void Clear() {
+    private void clear() {
         for (var i = 0; i < size; i++) {
             for (var j = 0; j < size; j++) {
                 board[j][i] = new Water();
@@ -73,15 +74,15 @@ class Board {
         return builder.toString();
     }
 
-    private boolean TrySetShip(Point anchor, Point direction, int length) {
-        if (IsFreeSpace(anchor, direction, length)) {
-            VectorToLinkedShip(anchor, direction, length);
+    private boolean trySetShip(Point anchor, Point direction, int length) {
+        if (isFreeSpace(anchor, direction, length)) {
+            vectorToLinkedShip(anchor, direction, length);
             return true;
         }
         return false;
     }
 
-    private void VectorToLinkedShip(Point anchor, Point direction, int shipLength) {
+    private void vectorToLinkedShip(Point anchor, Point direction, int shipLength) {
         for (var i = 0; i < shipLength; i++) {
             var position = new Point(anchor.x + direction.x * i,anchor.y + direction.y * i);
             var current = new ShipShard(shipWars, position, null, null, shipLength);
@@ -105,17 +106,17 @@ class Board {
         }
     }
 
-    private boolean IsFreeSpace(Point anchor, Point direction, int length) {
+    private boolean isFreeSpace(Point anchor, Point direction, int length) {
         var isFreeSpace = true;
         for (var i = 0; i < length; i++) {
             var position = new Point(anchor.x + direction.x * i,anchor.y + direction.y * i);
-            if (!IsFreeArea(position))
+            if (!isFreeArea(position))
                 isFreeSpace = false;
         }
         return isFreeSpace;
     }
 
-    private boolean IsFreeArea(Point point) {
+    private boolean isFreeArea(Point point) {
         var isFree = true;
         var offsets = new int[] {-1, 0, 1};
         try {
@@ -136,7 +137,7 @@ class Board {
         return isFree;
     }
 
-    public void Shuffle() {
+    public void shuffle() {
         var directions = new ArrayList<Point>();
         directions.add(new Point(0, 1));
         directions.add(new Point(0, -1));
@@ -151,7 +152,7 @@ class Board {
 
         var rnd = new Random();
         var currLength = 4;
-        while (!IsEmpty(ships) ) {
+        while (!isEmpty(ships) ) {
             var set = false;
             var dirPointer = 0;
             while (!set) {
@@ -160,7 +161,7 @@ class Board {
                 var anchor = new Point(x, y);
                 var dir = directions.get(dirPointer);
                 var length = ships.get(currLength);
-                if (TrySetShip(anchor, dir, length)) {
+                if (trySetShip(anchor, dir, length)) {
                     set = true;
                     ships.put(currLength, ships.get(currLength) - 1);
                     if (ships.get(currLength) == 0)
@@ -171,7 +172,7 @@ class Board {
         }
     }
 
-    private boolean IsEmpty(HashMap<Integer, Integer> ships) {
+    private boolean isEmpty(HashMap<Integer, Integer> ships) {
         for (var l : ships.keySet()) {
             if (ships.get(l) > 0)
                 return false;
@@ -179,7 +180,7 @@ class Board {
         return true;
     }
 
-    boolean Shoot(Point aim) {
+    boolean shoot(Point aim) {
         try {
             var tile = board[aim.x][aim.y];
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -197,7 +198,7 @@ class Board {
         return false;
     }
 
-    int GetShipsAlive() {
+    int getShipsAlive() {
         var shipsAlive = 0;
         for (var y = 0; y < size; y++ ) {
             for (var x = 0; x < size; x++ ) {

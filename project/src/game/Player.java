@@ -1,8 +1,9 @@
 package game;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Player {
+public class Player implements Serializable {
     public final String name;
     public final String password;
 

@@ -1,8 +1,9 @@
 package game.shipwars;
 
 import java.awt.*;
+import java.io.Serializable;
 
-class ShipShard implements GameTile {
+class ShipShard implements GameTile, Serializable {
     private ShipWars shipWars;
     public Point anchor;
     public ShipShard back;

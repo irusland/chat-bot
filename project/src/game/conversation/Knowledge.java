@@ -1,9 +1,6 @@
 package game.conversation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +8,12 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD:project/src/Knowledge.java
 public class Knowledge {
+=======
+public class Knowledge implements Serializable {
+>>>>>>> 9119878... Saving added & Global refactor
     public Knowledge() throws IOException, ParseException {
         Object obj = new JSONParser().parse(new FileReader("/Users/irusland/Desktop/UrFU/Java/chat-bot-java/project/src/knowledge.json"));
 =======

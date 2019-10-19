@@ -1,14 +1,10 @@
 import game.Game;
-import game.Player;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.Authenticator;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 class Bot {
     private BufferedReader reader;
@@ -36,15 +32,20 @@ class Bot {
 >>>>>>> 8f67080... AuthSystem done
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Bot(InputStream in, PrintStream out) throws IOException, ParseException {
 >>>>>>> 6315ce5... Ext lib added
 =======
     Bot(InputStream in, PrintStream out) {
 >>>>>>> a2a42b6... Pausing games added
+=======
+    Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
+>>>>>>> 9119878... Saving added & Global refactor
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     private Map<String, String[]> questionVariations = new HashMap<>() {{
@@ -68,6 +69,9 @@ class Bot {
             writer.println("За кого играем?");
 =======
     void Start() throws Exception {
+=======
+    void start() throws Exception {
+>>>>>>> 9119878... Saving added & Global refactor
         while (true) {
 <<<<<<< HEAD
             writer.println("Выбери игру");
@@ -233,6 +237,7 @@ class Bot {
 >>>>>>> e0d6633... Players started
 =======
             while (!Auth.loggedIn) {
+                Auth.load();
                 writer.println("Choose /login or /register or /exit");
                 var c = reader.readLine();
                 var name = "";
@@ -266,13 +271,13 @@ class Bot {
                 var choice = reader.readLine();
                 switch (choice) {
                     case "/xo":
-                        Play(TicTacToe.class);
+                        play(TicTacToe.class);
                         break;
                     case "/ship":
-                        Play(ShipWars.class);
+                        play(ShipWars.class);
                         break;
                     case "/calc":
-                        Play(Calculator.class);
+                        play(Calculator.class);
                         break;
                     case "/logout":
                         Auth.logout();
@@ -293,6 +298,7 @@ class Bot {
     }
 >>>>>>> 8f48e77... Tic Tac Toe done
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public void Start() throws IOException, ParseException {
         var knowledgeQuestions = new Knowledge();
@@ -344,6 +350,9 @@ class Bot {
             knowledgeAnswers.get(questionType).add(answer);
 =======
     private void Play(Class cls) throws Exception {
+=======
+    private void play(Class cls) throws Exception {
+>>>>>>> 9119878... Saving added & Global refactor
         System.out.println("Playing " + cls.getSimpleName());
         var classFound = false;
         Game game = null;
@@ -355,33 +364,47 @@ class Bot {
             }
         }
         if (classFound) {
-            Continue(game);
+            resume(game);
         } else {
-            game = Create(cls);
+            game = create(cls);
             Auth.getProcesses().add(game);
-            Continue(game);
+            resume(game);
         }
     }
 
-    private Game Create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    private Game create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         return (Game)cls.getDeclaredConstructor().newInstance();
     }
 
-    private void Continue(Game game) throws Exception {
-        writer.println(game.Load());
+    private void resume(Game game) throws Exception {
+        writer.println(game.load());
         while (true) {
-            if (game.IsFinished()) {
+            if (game.isFinished()) {
                 Auth.getProcesses().remove(game);
                 break;
             }
             var query = reader.readLine();
-            if (query.equals("/pause")) {
-                writer.println("Game paused");
-                break;
+            if (isCommand(query)) {
+                switch (query) {
+                    case "/pause":
+                        writer.println("Game paused");
+                        Auth.save();
+                        return;
+                    default:
+                        writer.println("Unknown command");
+                        break;
+                }
+            } else {
+                var response = game.request(query);
+                writer.println(response);
+                Auth.save();
             }
+<<<<<<< HEAD
             var response = game.Request(query);
             writer.println(response);
 >>>>>>> 8dc8dd4... Async games
+=======
+>>>>>>> 9119878... Saving added & Global refactor
         }
         writer.println(knowledgeAnswers);
         var info = ProcessData(knowledgeAnswers);
@@ -499,6 +522,10 @@ class Bot {
 =======
 >>>>>>> 09afcd1... TicTacToe Done
 =======
+
+    private boolean isCommand(String query) {
+        return query.contains("/");
+    }
 
     private void login(String name, String pass) {
         writer.println(Auth.login(name, pass));

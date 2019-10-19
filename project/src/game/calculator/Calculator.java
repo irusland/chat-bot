@@ -3,10 +3,11 @@ package game.calculator;
 
 import game.Game;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class Calculator implements Game {
+public class Calculator implements Game, Serializable {
     private String cache;
     private int result;
     private boolean isOperand;
@@ -15,22 +16,22 @@ public class Calculator implements Game {
     private boolean done;
 
     public Calculator() {
-        operations.put("+", (Integer a) -> result += a);
-        operations.put("-", (Integer a) -> result -= a);
-        operations.put("*", (Integer a) -> result *= a);
-        operations.put("/", (Integer a) -> result /= a);
-        operations.put("%", (Integer a) -> result %= a);
+        operations.put("+", (Consumer<Integer> & Serializable)(Integer a) -> result += a);
+        operations.put("-", (Consumer<Integer> & Serializable)(Integer a) -> result -= a);
+        operations.put("*", (Consumer<Integer> & Serializable)(Integer a) -> result *= a);
+        operations.put("/", (Consumer<Integer> & Serializable)(Integer a) -> result /= a);
+        operations.put("%", (Consumer<Integer> & Serializable)(Integer a) -> result %= a);
         cache = "Введите число";
         isOperand = true;
     }
 
     @Override
-    public String Load() {
+    public String load() {
         return cache;
     }
 
     @Override
-    public String Request(String query) throws Exception {
+    public String request(String query) throws Exception {
         if (isOperand) {
             var number = 0;
             try {
@@ -65,7 +66,7 @@ public class Calculator implements Game {
     }
 
     @Override
-    public Boolean IsFinished() {
+    public Boolean isFinished() {
         return done;
     }
 }

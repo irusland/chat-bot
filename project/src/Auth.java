@@ -1,10 +1,13 @@
 import game.Game;
 import game.Player;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
-public class Auth {
+public class Auth implements Serializable {
     public static boolean loggedIn;
     private static Player currentPlayer;
     private static HashMap<Player, ArrayList<Game>> playerProcesses = new HashMap<>();
@@ -44,5 +47,25 @@ public class Auth {
 
     public static ArrayList<Game> getProcesses() {
         return playerProcesses.get(currentPlayer);
+    }
+
+    public static void save() throws IOException {
+        FileOutputStream fos = new FileOutputStream("data.ser");
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        out.writeObject(playerProcesses);
+        out.close();
+//        System.out.println("Saved" + playerProcesses);
+    }
+
+    public static void load() throws IOException, ClassNotFoundException {
+        try {
+            FileInputStream fis = new FileInputStream("data.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            playerProcesses = (HashMap<Player, ArrayList<Game>>) ois.readObject();
+            ois.close();
+//            System.out.println("Loaded" + playerProcesses);
+        } catch (FileNotFoundException e) {
+            Auth.save();
+        }
     }
 }
