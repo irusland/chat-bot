@@ -2,9 +2,10 @@ package game.tictactoe;
 
 import game.Game;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class TicTacToe implements Game {
+public class TicTacToe implements Game, Serializable {
     private Cell playerCell;
     private final Board board;
     private String cache;
@@ -14,11 +15,11 @@ public class TicTacToe implements Game {
         cache = "started with " + board.size + "x" + board.size + " choose side X | O";
     }
 
-    public String Load() {
+    public String load() {
         return cache;
     }
 
-    public String Request(String query) throws Exception {
+    public String request(String query) throws Exception {
         if (playerCell == null) {
             if (query.equals(Cell.Cross.toString())) {
                 playerCell = Cell.Cross;
@@ -40,28 +41,28 @@ public class TicTacToe implements Game {
             cache = "Не верные координаты";
             return cache;
         }
-        var answer = Turn(x, y);
+        var answer = turn(x, y);
         if (answer.hasAnError) {
             cache = answer.info;
             return cache;
         }
-        if (IsFinished()) {
+        if (isFinished()) {
             cache = "\n" + "Игра окончена победа: " + playerCell;
             return cache;
         }
-        var banswer = BotTurn();
-        if (IsFinished()) {
-            cache = "Игра окончена победа: " + playerCell.Not();
+        var banswer = botTurn();
+        if (isFinished()) {
+            cache = "Игра окончена победа: " + playerCell.not();
             return cache;
         }
         return board.toString();
     }
 
-    public Boolean IsFinished() {
-        return board.GetWinner() != Cell.Free;
+    public Boolean isFinished() {
+        return board.getWinner() != Cell.Free;
     }
 
-    private String BotTurn() throws Exception {
+    private String botTurn() throws Exception {
         Random r = new Random();
         var validCoordinates = false;
         var x = 0;
@@ -69,13 +70,13 @@ public class TicTacToe implements Game {
         while (!validCoordinates) {
             x = r.nextInt(3);
             y = r.nextInt(3);
-            validCoordinates = board.TrySetCell(x, y, playerCell.Not());
+            validCoordinates = board.trySetCell(x, y, playerCell.not());
         }
         return "Выбор бота, \n" + board;
     }
 
-    private Response Turn(int x, int y) {
-        if(board.TrySetCell(x, y, playerCell))
+    private Response turn(int x, int y) {
+        if(board.trySetCell(x, y, playerCell))
             return new Response(false, board.toString());
         return new Response(true, "Выберите другие координаты \n" + board.toString());
     }

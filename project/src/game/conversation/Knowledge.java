@@ -1,9 +1,6 @@
 package game.conversation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +8,7 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 
-public class Knowledge {
+public class Knowledge implements Serializable {
     public Knowledge() throws IOException, ParseException {
         File file = new File ("project/src/knowledge.json");
         Object obj = new JSONParser().parse(new FileReader(file.getAbsoluteFile()));

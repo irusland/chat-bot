@@ -1,5 +1,3 @@
-import org.json.simple.parser.ParseException;
-
 import java.io.*;
 
 
@@ -23,7 +21,7 @@ public class App
                         break;
                 case "/bot":
                     bot = new Bot(System.in , System.out);
-                    bot.Start();
+                    bot.start();
                         break;
                 default:
                         break;

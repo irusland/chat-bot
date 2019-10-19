@@ -1,6 +1,8 @@
 package game.shipwars;
 
-class Water implements GameTile {
+import java.io.Serializable;
+
+class Water implements GameTile, Serializable {
     public String toString() {
         return ".";
     }

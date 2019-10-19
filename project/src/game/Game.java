@@ -1,7 +1,9 @@
 package game;
 
+import java.io.Serializable;
+
 public interface Game {
-    String Load();
-    String Request(String query) throws Exception;
-    Boolean IsFinished();
+    String load();
+    String request(String query) throws Exception;
+    Boolean isFinished();
 }

@@ -3,8 +3,9 @@ package game.shipwars;
 import game.Game;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class ShipWars implements Game {
+public class ShipWars implements Game, Serializable {
     private final Board board;
     private final Board opponentBoard;
     private final GameBot opponent;
@@ -17,17 +18,17 @@ public class ShipWars implements Game {
         opponentBoard = new Board(this, size);
         opponent = new GameBot(opponentBoard);
         prepared = false;
-        board.Shuffle();
-        opponentBoard.Shuffle();
+        board.shuffle();
+        opponentBoard.shuffle();
         cache = "generated \n" + board.toString() + opponentBoard.toOpponentString();
     }
 
-    public String Load() {
+    public String load() {
         return cache;
     }
 
-    public String Request(String query) throws Exception {
-        board.Shoot(opponent.GetChoice());
+    public String request(String query) throws Exception {
+        board.shoot(opponent.getChoice());
         var x = 0;
         var y = 0;
         try {
@@ -36,7 +37,7 @@ public class ShipWars implements Game {
         } catch (Exception e) {
             return "Не верные координаты";
         }
-        if (opponentBoard.Shoot(new Point(x, y))) {
+        if (opponentBoard.shoot(new Point(x, y))) {
             cache = "\n" + "Ранил \n" + board.toString() + opponentBoard.toOpponentString();
             return cache;
         }
@@ -44,9 +45,9 @@ public class ShipWars implements Game {
         return cache;
     }
 
-    public Boolean IsFinished() {
-        var humanShipsCount = board.GetShipsAlive();
-        var botShipsCount = opponentBoard.GetShipsAlive();
+    public Boolean isFinished() {
+        var humanShipsCount = board.getShipsAlive();
+        var botShipsCount = opponentBoard.getShipsAlive();
         if (humanShipsCount == 0 || botShipsCount == 0)
             return true;
         return false;

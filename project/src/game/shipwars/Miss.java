@@ -1,6 +1,8 @@
 package game.shipwars;
 
-class Miss implements GameTile {
+import java.io.Serializable;
+
+class Miss implements GameTile, Serializable {
     public String toString() {
         return "^";
     }

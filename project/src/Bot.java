@@ -1,27 +1,24 @@
 import game.Game;
-import game.Player;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.Authenticator;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 class Bot {
     private BufferedReader reader;
     private PrintStream writer;
 
-    Bot(InputStream in, PrintStream out) {
+    Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
     }
 
-    void Start() throws Exception {
+    void start() throws Exception {
         while (true) {
             while (!Auth.loggedIn) {
+                Auth.load();
                 writer.println("Choose /login or /register or /exit");
                 var c = reader.readLine();
                 var name = "";
@@ -55,13 +52,13 @@ class Bot {
                 var choice = reader.readLine();
                 switch (choice) {
                     case "/xo":
-                        Play(TicTacToe.class);
+                        play(TicTacToe.class);
                         break;
                     case "/ship":
-                        Play(ShipWars.class);
+                        play(ShipWars.class);
                         break;
                     case "/calc":
-                        Play(Calculator.class);
+                        play(Calculator.class);
                         break;
                     case "/logout":
                         Auth.logout();
@@ -73,7 +70,7 @@ class Bot {
         }
     }
 
-    private void Play(Class cls) throws Exception {
+    private void play(Class cls) throws Exception {
         System.out.println("Playing " + cls.getSimpleName());
         var classFound = false;
         Game game = null;
@@ -85,33 +82,46 @@ class Bot {
             }
         }
         if (classFound) {
-            Continue(game);
+            resume(game);
         } else {
-            game = Create(cls);
+            game = create(cls);
             Auth.getProcesses().add(game);
-            Continue(game);
+            resume(game);
         }
     }
 
-    private Game Create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    private Game create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         return (Game)cls.getDeclaredConstructor().newInstance();
     }
 
-    private void Continue(Game game) throws Exception {
-        writer.println(game.Load());
+    private void resume(Game game) throws Exception {
+        writer.println(game.load());
         while (true) {
-            if (game.IsFinished()) {
+            if (game.isFinished()) {
                 Auth.getProcesses().remove(game);
                 break;
             }
             var query = reader.readLine();
-            if (query.equals("/pause")) {
-                writer.println("Game paused");
-                break;
+            if (isCommand(query)) {
+                switch (query) {
+                    case "/pause":
+                        writer.println("Game paused");
+                        Auth.save();
+                        return;
+                    default:
+                        writer.println("Unknown command");
+                        break;
+                }
+            } else {
+                var response = game.request(query);
+                writer.println(response);
+                Auth.save();
             }
-            var response = game.Request(query);
-            writer.println(response);
         }
+    }
+
+    private boolean isCommand(String query) {
+        return query.contains("/");
     }
 
     private void login(String name, String pass) {
