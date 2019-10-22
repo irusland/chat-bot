@@ -1,3 +1,4 @@
+import TeleBot.BotInitializer;
 import auth.Auth;
 import game.Game;
 import game.calculator.Calculator;
@@ -18,13 +19,7 @@ class Bot {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
 
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(new TBot());
-        } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
-        }
+        BotInitializer.main(new String[]{});
     }
 
     void start() throws Exception {
