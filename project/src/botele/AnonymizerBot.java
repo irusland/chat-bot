@@ -1,7 +1,7 @@
-package TeleBot;
+package botele;
 
-import TeleBot.command.*;
-import TeleBot.service.AnonymousService;
+import botele.command.*;
+import botele.service.AnonymousService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +32,7 @@ public final class AnonymizerBot extends TelegramLongPollingCommandBot {
 
         super(botOptions, BOT_NAME);
 
-        System.out.println("Initializing Anonymizer Bot...");
+        LOG.info("Initializing Anonymizer Bot...");
 
         LOG.info("Initializing anonymouses list...");
         mAnonymouses = new AnonymousService();

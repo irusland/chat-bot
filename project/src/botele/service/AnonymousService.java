@@ -1,6 +1,6 @@
-package TeleBot.service;
+package botele.service;
 
-import TeleBot.Anonymous;
+import botele.Anonymous;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.HashSet;

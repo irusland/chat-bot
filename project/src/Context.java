@@ -1,21 +1,18 @@
-import TeleBot.BotInitializer;
+import botele.BotInitializer;
 import auth.Auth;
 import game.Game;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 
-class Bot {
+class Context {
     private BufferedReader reader;
     private PrintStream writer;
 
-    Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
+    Context(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
 

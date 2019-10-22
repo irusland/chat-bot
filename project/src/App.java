@@ -8,7 +8,7 @@ public class App
                 new BufferedReader(new InputStreamReader(System.in));
         boolean started = false;
         String name = "";
-        Bot bot = null;
+        Context context = null;
         while (true)
         {
             System.out.println("Start bot with /bot");
@@ -20,8 +20,8 @@ public class App
                     System.out.println("напиши /start");
                         break;
                 case "/bot":
-                    bot = new Bot(System.in , System.out);
-                    bot.start();
+                    context = new Context(System.in , System.out);
+                    context.start();
                         break;
                 default:
                         break;

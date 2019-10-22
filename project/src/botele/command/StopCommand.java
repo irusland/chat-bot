@@ -1,6 +1,6 @@
-package TeleBot.command;
+package botele.command;
 
-import TeleBot.service.AnonymousService;
+import botele.service.AnonymousService;
 import org.apache.logging.log4j.Level;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;

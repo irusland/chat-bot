@@ -1,4 +1,4 @@
-package TeleBot.command;
+package botele.command;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
