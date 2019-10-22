@@ -3,6 +3,9 @@ import game.Game;
 import game.calculator.Calculator;
 import game.shipwars.ShipWars;
 import game.tictactoe.TicTacToe;
+import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +17,14 @@ class Bot {
     Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
+
+        ApiContextInitializer.init();
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            telegramBotsApi.registerBot(new TBot());
+        } catch (TelegramApiRequestException e) {
+            e.printStackTrace();
+        }
     }
 
     void start() throws Exception {
