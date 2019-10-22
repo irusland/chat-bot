@@ -531,7 +531,7 @@ class Bot {
         writer.println(Auth.login(name, pass));
     }
 
-    private void register(String name, String pass) {
+    private void register(String name, String pass) throws IOException {
         writer.println(Auth.register(name, pass));
     }
 

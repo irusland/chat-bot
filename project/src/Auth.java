@@ -12,8 +12,8 @@ public class Auth implements Serializable {
     private static Player currentPlayer;
     private static HashMap<Player, ArrayList<Game>> playerProcesses = new HashMap<>();
     public static String login(String name, String pass) {
-        var player = getPlayer(name, pass);
-        if (player != null)
+        var player = getPlayer(name);
+        if (player != null && player.password.equals(pass))
         {
             loggedIn = true;
             currentPlayer = player;
@@ -22,20 +22,21 @@ public class Auth implements Serializable {
         return "Incorrect data";
     }
 
-    private static Player getPlayer(String name, String pass) {
+    private static Player getPlayer(String name) {
         for (var player : playerProcesses.keySet()) {
-            if (name.equals(player.name) && pass.equals(player.password)) {
+            if (name.equals(player.name)) {
                 return player;
             }
         }
         return null;
     }
 
-    public static String register(String name, String pass) {
-        var player = new Player(name, pass);
-        if (getPlayer(name, pass) != null)
+    public static String register(String name, String pass) throws IOException {
+        if (getPlayer(name) != null)
             return "Player already registered";
+        var player = new Player(name, pass);
         playerProcesses.put(player, new ArrayList<>());
+        Auth.save();
         return "Registered " + name + " " + pass;
     }
 
