@@ -32,7 +32,7 @@ public final class BotInitializer {
 //            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
 
             LOG.info("Registering Anonymizer...");
-            botsApi.registerBot(new AnonymizerBot(botOptions));
+            botsApi.registerBot(new AnonymizeBot(botOptions));
             LOG.info("Anonymizer bot is ready for work!");
 
         } catch (TelegramApiRequestException e) {

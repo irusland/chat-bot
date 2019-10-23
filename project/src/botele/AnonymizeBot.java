@@ -17,9 +17,9 @@ import java.util.stream.Stream;
 
 
 
-public final class AnonymizerBot extends TelegramLongPollingCommandBot {
+public final class AnonymizeBot extends TelegramLongPollingCommandBot {
 
-    private static final Logger LOG = LogManager.getLogger(AnonymizerBot.class);
+    private static final Logger LOG = LogManager.getLogger(AnonymizeBot.class);
 
     // имя бота, которое мы указали при создании аккаунта у BotFather
     // и токен, который получили в результате
@@ -28,7 +28,7 @@ public final class AnonymizerBot extends TelegramLongPollingCommandBot {
 
     private final AnonymousService mAnonymouses;
 
-    public AnonymizerBot(DefaultBotOptions botOptions) {
+    public AnonymizeBot(DefaultBotOptions botOptions) {
 
         super(botOptions, BOT_NAME);
 
