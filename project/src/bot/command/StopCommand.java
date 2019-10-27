@@ -1,6 +1,6 @@
-package botele.command;
+package bot.command;
 
-import botele.service.AnonymousService;
+import bot.service.PlayerService;
 import org.apache.logging.log4j.Level;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -9,9 +9,9 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 public final class StopCommand extends AnonymizerCommand {
 
-    private final AnonymousService mAnonymouses;
+    private final PlayerService mAnonymouses;
 
-    public StopCommand(AnonymousService anonymouses) {
+    public StopCommand(PlayerService anonymouses) {
         super("stop", "remove yourself from bot users' list\n");
         mAnonymouses = anonymouses;
     }

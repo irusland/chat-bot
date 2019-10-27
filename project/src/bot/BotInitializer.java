@@ -1,4 +1,4 @@
-package botele;
+package bot;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +32,7 @@ public final class BotInitializer {
 //            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
 
             LOG.info("Registering Anonymizer...");
-            botsApi.registerBot(new AnonymizeBot(botOptions));
+            botsApi.registerBot(new Bot(botOptions));
             LOG.info("Anonymizer bot is ready for work!");
 
         } catch (TelegramApiRequestException e) {

@@ -1,13 +1,14 @@
-package botele;
+package bot;
 
-import botele.command.*;
-import botele.service.AnonymousService;
+import bot.service.PlayerService;
+import context.Context;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -17,67 +18,23 @@ import java.util.stream.Stream;
 
 
 
-public final class AnonymizeBot extends TelegramLongPollingCommandBot {
+public final class Bot extends TelegramLongPollingBot {
 
-    private static final Logger LOG = LogManager.getLogger(AnonymizeBot.class);
+    private static final Logger LOG = LogManager.getLogger(Bot.class);
 
     // имя бота, которое мы указали при создании аккаунта у BotFather
     // и токен, который получили в результате
     private static final String BOT_NAME = "Jovajbot";
     private static final String BOT_TOKEN = "843494970:AAGmf3kRRpEGnyOkyils3f9xbsmBmlK7eEw";
 
-    private final AnonymousService mAnonymouses;
+    private final PlayerService players;
 
-    public AnonymizeBot(DefaultBotOptions botOptions) {
-
-        super(botOptions, BOT_NAME);
-
-        LOG.info("Initializing Anonymizer Bot...");
-
-        LOG.info("Initializing anonymouses list...");
-        mAnonymouses = new AnonymousService();
-
-        // регистрация всех кастомных команд
-        LOG.info("Registering commands...");
-        LOG.info("Registering '/start'...");
-        register(new StartCommand( mAnonymouses));
-        LOG.info("Registering '/set_name'...");
-        register(new SetNameCommand(mAnonymouses));
-        LOG.info("Registering '/stop'...");
-        register(new StopCommand(mAnonymouses));
-        LOG.info("Registering '/my_name'...");
-        register(new MyNameCommand(mAnonymouses));
-        HelpCommand helpCommand = new HelpCommand(this);
-        LOG.info("Registering '/help'...");
-        register(helpCommand);
-
-        // обработка неизвестной команды
-        LOG.info("Registering default action'...");
-        registerDefaultAction(((absSender, message) -> {
-
-            LOG.log(Level.getLevel("LogLevel.STRANGE.getValue()"), "User {} is trying to execute unknown command '{}'.", message.getFrom().getId(), message.getText());
-
-            SendMessage text = new SendMessage();
-            text.setChatId(message.getChatId());
-            text.setText(message.getText() + " command not found!");
-
-            try {
-                absSender.execute(text);
-            } catch (TelegramApiException e) {
-                LOG.error("Error while replying unknown command to user {}.", message.getFrom(), e);
-            }
-
-            helpCommand.execute(absSender, message.getFrom(), message.getChat(), new String[] {});
-        }));
+    public Bot(DefaultBotOptions botOptions) {
+        players = new PlayerService();
     }
 
-    public String getBotToken() {
-        return BOT_TOKEN;
-    }
-
-    // обработка сообщения не начинающегося с '/'
-    public void processNonCommandUpdate(Update update) {
-
+    @Override
+    public void onUpdateReceived(Update update) {
         LOG.info("Processing non-command update...");
 
         if (!update.hasMessage()) {
@@ -88,30 +45,45 @@ public final class AnonymizeBot extends TelegramLongPollingCommandBot {
         Message msg = update.getMessage();
         User user = msg.getFrom();
 
+
         LOG.info("LogTemplate.MESSAGE_PROCESSING.getTemplate()", user.getId());
 
         if (!canSendMessage(user, msg)) {
             return;
         }
 
+        Context.gateIn.add(msg.getText()); // SEND UPDATE
+
         String clearMessage = msg.getText();
-        String messageForUsers = String.format("%s:\n%s", mAnonymouses.getDisplayedName(user), msg.getText());
+        String messageForUsers = String.format("%s:\n%s", players.getDisplayedName(user), msg.getText());
 
         SendMessage answer = new SendMessage();
 
         // отправка ответа отправителю о том, что его сообщение получено
-        answer.setText(clearMessage);
+
+        var ans = Context.getAnswer();
+
+        answer.setText(ans);
         answer.setChatId(msg.getChatId());
-        replyToUser(answer, user, clearMessage);
+        replyToUser(answer, user, ans);
 
         // отправка сообщения всем остальным пользователям бота
         answer.setText(messageForUsers);
-        Stream<Anonymous> anonymouses = mAnonymouses.anonymouses();
+        Stream<Player> anonymouses = players.anonymouses();
         anonymouses.filter(a -> !a.getUser().equals(user))
                 .forEach(a -> {
                     answer.setChatId(a.getChat().getId());
                     sendMessageToUser(answer, a.getUser(), user);
                 });
+    }
+
+    @Override
+    public String getBotUsername() {
+        return BOT_NAME;
+    }
+
+    public String getBotToken() {
+        return BOT_TOKEN;
     }
 
     // несколько проверок, чтобы можно было отправлять сообщения другим пользователям
@@ -127,16 +99,9 @@ public final class AnonymizeBot extends TelegramLongPollingCommandBot {
             return false;
         }
 
-        if(!mAnonymouses.hasAnonymous(user)) {
-            LOG.log(Level.getLevel("LogLevel.STRANGE.getValue()"), "User {} is trying to send message without starting the bot!", user.getId());
-            answer.setText("Firstly you should start bot! Use /start command!");
-            replyToUser(answer, user, msg.getText());
-            return false;
-        }
-
-        if (mAnonymouses.getDisplayedName(user) == null) {
-            LOG.log(Level.getLevel("LogLevel.STRANGE.getValue()"), "User {} is trying to send message without setting a name!", user.getId());
-            answer.setText("You must set a name before sending messages.\nUse '/set_name <displayed_name>' command.");
+        if(!players.hasAnonymous(user)) {
+            players.addAnonymous(new Player(user, new Chat()));
+            answer.setText(Context.getAnswer());
             replyToUser(answer, user, msg.getText());
             return false;
         }

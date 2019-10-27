@@ -1,15 +1,15 @@
-package botele.command;
+package bot.command;
 
-import botele.service.AnonymousService;
+import bot.service.PlayerService;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 public final class CustomCommand extends AnonymizerCommand {
-    private final AnonymousService mAnonymouses;
+    private final PlayerService mAnonymouses;
 
-    public CustomCommand(AnonymousService anonymouses) {
+    public CustomCommand(PlayerService anonymouses) {
         super("register", "start using bot\n");
         mAnonymouses = anonymouses;
     }
