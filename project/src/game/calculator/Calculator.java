@@ -37,6 +37,17 @@ public class Calculator implements Game, Serializable {
     }
 
     @Override
+    public String reset() {
+        cache = "Введите число";
+        operation = null;
+        isOperand = true;
+        done = false;
+        result = 0;
+        sb = new StringBuilder();
+        return "Game reset";
+    }
+
+    @Override
     public String request(String query) throws Exception {
         if (isOperand) {
             var number = 0;
@@ -61,6 +72,7 @@ public class Calculator implements Game, Serializable {
             operation = query;
             if (operation.equals("=")) {
                 done = true;
+                sb.append("=").append(result).append("\n");
                 history.add(sb.toString());
                 sb = new StringBuilder();
                 cache = "➡ " + result;
@@ -84,7 +96,7 @@ public class Calculator implements Game, Serializable {
     @Override
     public String getStatistics() {
         StringBuilder res = new StringBuilder();
-        res.append("Operation history");
+        res.append("Operation history\n");
         for (String s : history) {
             res.append(s);
         }

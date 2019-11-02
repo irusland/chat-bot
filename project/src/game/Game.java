@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 public interface Game {
     String load();
+    default String reset() {
+        return "No reset for this game";
+    }
     String request(String query) throws Exception;
     Boolean isFinished();
     default String getStatistics() {
