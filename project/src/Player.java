@@ -1,6 +1,10 @@
-package game;
+package auth;
+
+import game.Game;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Player implements Serializable {

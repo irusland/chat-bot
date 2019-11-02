@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import bot.Bot;
+
+>>>>>>> 0b09a81... Correct messaging + stats atarted
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,6 +36,7 @@ public class App
                     System.out.println("Привет я Бот, хочешь поговорить?");
                     System.out.println("напиши /start");
                         break;
+<<<<<<< HEAD
                 case "/start":
                     started = true;
                     bot = new Bot(System.in , System.out);
@@ -40,6 +46,11 @@ public class App
 =======
                     bot.start();
 >>>>>>> 9119878... Saving added & Global refactor
+=======
+                case "/bot":
+                    bot = new Bot(System.in , System.out);
+                    bot.start();
+>>>>>>> 0b09a81... Correct messaging + stats atarted
                         break;
                 default:
 <<<<<<< HEAD

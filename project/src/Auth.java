@@ -1,5 +1,4 @@
 import game.Game;
-import game.Player;
 
 import java.io.*;
 import java.util.ArrayList;
