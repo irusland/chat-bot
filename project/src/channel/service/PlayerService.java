@@ -1,6 +1,6 @@
-package bot.service;
+package channel.service;
 
-import bot.Player;
+import channel.Player;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.HashSet;

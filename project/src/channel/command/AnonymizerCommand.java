@@ -1,4 +1,4 @@
-package bot.command;
+package channel.command;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;

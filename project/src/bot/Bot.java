@@ -1,129 +1,238 @@
 package bot;
 
-import bot.service.PlayerService;
-import context.Context;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import channel.ChannelInitializer;
+import auth.Auth;
+import game.Game;
+import game.calculator.Calculator;
+import game.shipwars.ShipWars;
+import game.tictactoe.TicTacToe;
 
-import java.util.stream.Stream;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
+public class Bot {
+    private static BufferedReader reader;
+    private static PrintStream writer;
+    public static Queue<String> gateIn;
+    public static Queue<String> consoleIn;
+    public static ArrayList<String> gateOut;
+    private static Boolean isAnswerAfterRead;
+    private static Boolean isConsolePlaying;
 
-
-public final class Bot extends TelegramLongPollingBot {
-
-    private static final Logger LOG = LogManager.getLogger(Bot.class);
-
-    // имя бота, которое мы указали при создании аккаунта у BotFather
-    // и токен, который получили в результате
-    private static final String BOT_NAME = "Jovajbot";
-    private static final String BOT_TOKEN = "843494970:AAGmf3kRRpEGnyOkyils3f9xbsmBmlK7eEw";
-
-    private final PlayerService players;
-
-    public Bot(DefaultBotOptions botOptions) {
-        players = new PlayerService();
+    public Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        writer = System.out;
+        gateIn = new LinkedList<>();
+        consoleIn = new LinkedList<>();
+        gateOut = new ArrayList<>();
+        isConsolePlaying = false;
+        isAnswerAfterRead = false;
+        ChannelInitializer.main(new String[]{});
     }
 
-    @Override
-    public void onUpdateReceived(Update update) {
-        LOG.info("Processing non-command update...");
-
-        if (!update.hasMessage()) {
-            LOG.error("Update doesn't have a body!");
-            throw new IllegalStateException("Update doesn't have a body!");
+    public static String getAnswer() {
+        if (isConsolePlaying) {
+            return "Player is in console";
         }
+        while (gateOut.isEmpty()) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
 
-        Message msg = update.getMessage();
-        User user = msg.getFrom();
-
-
-        LOG.info("LogTemplate.MESSAGE_PROCESSING.getTemplate()", user.getId());
-
-        if (!canSendMessage(user, msg)) {
-            return;
+            }
         }
-
-        Context.gateIn.add(msg.getText()); // SEND UPDATE
-
-        String clearMessage = msg.getText();
-        String messageForUsers = String.format("%s:\n%s", players.getDisplayedName(user), msg.getText());
-
-        SendMessage answer = new SendMessage();
-
-        // отправка ответа отправителю о том, что его сообщение получено
-
-        var ans = Context.getAnswer();
-
-        answer.setText(ans);
-        answer.setChatId(msg.getChatId());
-        replyToUser(answer, user, ans);
-
-        // отправка сообщения всем остальным пользователям бота
-        answer.setText(messageForUsers);
-        Stream<Player> anonymouses = players.anonymouses();
-        anonymouses.filter(a -> !a.getUser().equals(user))
-                .forEach(a -> {
-                    answer.setChatId(a.getChat().getId());
-                    sendMessageToUser(answer, a.getUser(), user);
-                });
+        StringBuilder sb = new StringBuilder();
+        for (String s : gateOut) {
+            sb.append(s);
+            sb.append('\n');
+        }
+        gateOut.clear();
+        isAnswerAfterRead = false;
+        return sb.toString();
     }
 
-    @Override
-    public String getBotUsername() {
-        return BOT_NAME;
+    private String readQuery() {
+        if (isConsolePlaying) {
+            AsyncReader.asyncRead(consoleIn);
+            while (consoleIn.isEmpty()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            AsyncReader.interrupt();
+            isAnswerAfterRead = true;
+            return consoleIn.remove();
+        }
+        while (gateIn.isEmpty()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        isAnswerAfterRead = true;
+        return gateIn.remove();
     }
 
-    public String getBotToken() {
-        return BOT_TOKEN;
+    private void sendOutput() {
+        if (isConsolePlaying)
+            writer.println(sb.toString());
+        else
+            gateOut.add(sb.toString());
+        sb = new StringBuilder();
     }
 
-    // несколько проверок, чтобы можно было отправлять сообщения другим пользователям
-    private boolean canSendMessage(User user, Message msg) {
+    private static StringBuilder sb = new StringBuilder();
 
-        SendMessage answer = new SendMessage();
-        answer.setChatId(msg.getChatId());
-
-        if (!msg.hasText() || msg.getText().trim().length() == 0) {
-            LOG.log(Level.getLevel("LogLevel.STRANGE.getValue()"), "User {} is trying to send empty message!", user.getId());
-            answer.setText("You shouldn't send empty messages!");
-            replyToUser(answer, user, msg.getText());
-            return false;
-        }
-
-        if(!players.hasAnonymous(user)) {
-            players.addAnonymous(new Player(user, new Chat()));
-            answer.setText(Context.getAnswer());
-            replyToUser(answer, user, msg.getText());
-            return false;
-        }
-
-        return true;
+    private void enqueueOutput(String s) {
+        sb.append(s).append("\n");
     }
 
-    private void sendMessageToUser(SendMessage message, User receiver, User sender) {
-        try {
-            execute(message);
-            LOG.log(Level.getLevel("LogLevel.SUCCESS.getValue()"), "LogTemplate.MESSAGE_RECEIVED.getTemplate()", receiver.getId(), sender.getId());
-        } catch (TelegramApiException e) {
-            LOG.error("LogTemplate.MESSAGE_LOST.getTemplate()", receiver.getId(), sender.getId(), e);
+    public void start() throws Exception {
+        while (true) {
+            while (!Auth.loggedIn) {
+                Auth.load();
+                enqueueOutput("Choose /login or /register or /exit");
+                sendOutput();
+                var c = readQuery();
+                var name = "";
+                var pass = "";
+                var registered = false;
+                switch (c) {
+                    case "/register":
+                        name = getName();
+                        pass = getPass();
+                        register(name, pass);
+                        registered = true;
+                    case "/login":
+                        if (!registered) {
+                            name = getName();
+                            pass = getPass();
+                        }
+                        login(name, pass);
+                        break;
+                    case "/exit":
+                        return;
+                    default:
+                        break;
+                }
+            }
+            while (Auth.loggedIn) {
+                enqueueOutput("Выбери игру\n" + "\n/xo" + "\n/ship" + "\n/calc" + "\n/logout" + "\n/switch");
+                sendOutput();
+                var choice = readQuery();
+//                writer.println(choice);
+                switch (choice) {
+                    case "/xo":
+                        play(TicTacToe.class);
+                        break;
+                    case "/ship":
+                        play(ShipWars.class);
+                        break;
+                    case "/calc":
+                        play(Calculator.class);
+                        break;
+                    case "/logout":
+                        Auth.logout();
+                        break;
+                    case "/switch":
+                        if (!isConsolePlaying) {
+                            enqueueOutput("Switched to console");
+                        } else {
+                            enqueueOutput("Switched to telegram");
+                        }
+                        isConsolePlaying = !isConsolePlaying;
+                        break;
+                    default:
+                        enqueueOutput("Неправильный выбор");
+                }
+                sendOutput();
+            }
         }
     }
 
-    private void replyToUser(SendMessage message, User user, String messageText) {
-        try {
-            execute(message);
-            LOG.log(Level.getLevel("LogLevel.SUCCESS.getValue()"), "LogTemplate.MESSAGE_SENT.getTemplate()", user.getId(), messageText);
-        } catch (TelegramApiException e) {
-            LOG.error("LogTemplate.MESSAGE_EXCEPTION.getTemplate()", user.getId(), e);
+    private void play(Class cls) throws Exception {
+//        System.out.println("Playing " + cls.getSimpleName());
+        var classFound = false;
+        Game game = null;
+        for (var proc : Auth.getProcesses()) {
+            if (proc.getClass().isAssignableFrom(cls)) {
+                classFound = true;
+                game = proc;
+                break;
+            }
         }
+        if (classFound) {
+            resume(game);
+        } else {
+            game = create(cls);
+            Auth.getProcesses().add(game);
+            resume(game);
+        }
+    }
+
+    private Game create(Class cls) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        return (Game)cls.getDeclaredConstructor().newInstance();
+    }
+
+    private void resume(Game game) throws Exception {
+        enqueueOutput(game.load());
+        sendOutput();
+        while (true) {
+            if (game.isFinished()) {
+                Auth.getProcesses().remove(game);
+                break;
+            }
+            var query = readQuery();
+            if (isCommand(query)) {
+                switch (query) {
+                    case "/pause":
+                        enqueueOutput("Game paused");
+                        Auth.save();
+                        return;
+                    case "/stat":
+                        enqueueOutput(game.getStatistics());
+                        break;
+                    default:
+                        enqueueOutput("Unknown command");
+                        break;
+                }
+            } else {
+                var response = game.request(query);
+                enqueueOutput(response);
+                Auth.save();
+            }
+            sendOutput();
+        }
+    }
+
+    private boolean isCommand(String query) {
+        return query.contains("/");
+    }
+
+    private void login(String name, String pass) {
+        enqueueOutput(Auth.login(name, pass));
+    }
+
+    private void register(String name, String pass) throws IOException {
+        enqueueOutput(Auth.register(name, pass));
+    }
+
+    private String getName() throws IOException {
+        enqueueOutput("Введите имя");
+        sendOutput();
+        return readQuery();
+    }
+
+    private String getPass() throws IOException {
+        enqueueOutput("Введите пароль");
+        sendOutput();
+        return readQuery();
     }
 }
+

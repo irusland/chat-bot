@@ -1,2 +1,2 @@
-# chat-context-java
-Object oriented chat context
+# chat-bot-java
+Object oriented chat bot

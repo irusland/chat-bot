@@ -1,7 +1,7 @@
-package bot.command;
+package channel.command;
 
-import bot.Player;
-import bot.service.PlayerService;
+import channel.Player;
+import channel.service.PlayerService;
 import org.apache.logging.log4j.Level;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;

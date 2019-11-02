@@ -1,4 +1,4 @@
-package bot.command;
+package channel.command;
 
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

@@ -4,6 +4,7 @@ package game.calculator;
 import game.Game;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
@@ -15,6 +16,9 @@ public class Calculator implements Game, Serializable {
     private final HashMap<String, Consumer<Integer>> operations = new HashMap<>();
     private boolean done;
 
+    private final ArrayList<String> history;
+    private StringBuilder sb;
+
     public Calculator() {
         operations.put("+", (Consumer<Integer> & Serializable)(Integer a) -> result += a);
         operations.put("-", (Consumer<Integer> & Serializable)(Integer a) -> result -= a);
@@ -23,6 +27,8 @@ public class Calculator implements Game, Serializable {
         operations.put("%", (Consumer<Integer> & Serializable)(Integer a) -> result %= a);
         cache = "Введите число";
         isOperand = true;
+        history = new ArrayList<>();
+        sb = new StringBuilder();
     }
 
     @Override
@@ -42,7 +48,10 @@ public class Calculator implements Game, Serializable {
             }
             if (operation == null) {
                 result = number;
+                sb.append(result);
             } else {
+                sb.append(operation).append(number).append(")");
+                sb.insert(0,"(");
                 operations.get(operation).accept(number);
             }
             isOperand = false;
@@ -52,6 +61,8 @@ public class Calculator implements Game, Serializable {
             operation = query;
             if (operation.equals("=")) {
                 done = true;
+                history.add(sb.toString());
+                sb = new StringBuilder();
                 cache = "➡ " + result;
                 return cache;
             }
@@ -68,5 +79,15 @@ public class Calculator implements Game, Serializable {
     @Override
     public Boolean isFinished() {
         return done;
+    }
+
+    @Override
+    public String getStatistics() {
+        StringBuilder res = new StringBuilder();
+        res.append("Operation history");
+        for (String s : history) {
+            res.append(s);
+        }
+        return res.toString();
     }
 }

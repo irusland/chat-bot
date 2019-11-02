@@ -1,4 +1,4 @@
-import context.Context;
+import bot.Bot;
 
 import java.io.*;
 
@@ -10,7 +10,7 @@ public class App
                 new BufferedReader(new InputStreamReader(System.in));
         boolean started = false;
         String name = "";
-        Context context = null;
+        Bot bot = null;
         while (true)
         {
             System.out.println("Start bot with /bot");
@@ -22,8 +22,8 @@ public class App
                     System.out.println("напиши /start");
                         break;
                 case "/bot":
-                    context = new Context(System.in , System.out);
-                    context.start();
+                    bot = new Bot(System.in , System.out);
+                    bot.start();
                         break;
                 default:
                         break;
