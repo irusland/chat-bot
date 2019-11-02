@@ -185,7 +185,8 @@ public class Bot {
         sendOutput();
         while (true) {
             if (game.isFinished()) {
-                Auth.getProcesses().remove(game);
+//                Auth.getProcesses().remove(game);
+                enqueueOutput(game.reset());
                 break;
             }
             var query = readQuery();
@@ -197,6 +198,9 @@ public class Bot {
                         return;
                     case "/stat":
                         enqueueOutput(game.getStatistics());
+                        break;
+                    case "/reset":
+                        enqueueOutput(game.reset());
                         break;
                     default:
                         enqueueOutput("Unknown command");
