@@ -180,13 +180,16 @@ class Board implements Serializable {
         return true;
     }
 
-    boolean shoot(Point aim) {
+    boolean shoot(Point aim) throws Exception {
         try {
             var tile = board[aim.x][aim.y];
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }
         var tile = board[aim.x][aim.y];
+        if (tile instanceof Miss || (tile instanceof ShipShard && !((ShipShard) tile).isAlive)) {
+            return false;
+        }
         if (tile instanceof ShipShard) {
             ((ShipShard) tile).isAlive = false;
             return true;
