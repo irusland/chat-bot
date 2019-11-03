@@ -7,12 +7,25 @@ import java.util.Random;
 
 public class TicTacToe implements Game, Serializable {
     private Cell playerCell;
-    private final Board board;
+    private Board board;
     private String cache;
+
+    private int crossTotal;
+    private int crossWins;
+    private int zeroTotal;
+    private int zeroWins;
 
     public TicTacToe() {
         board = new Board(3);
         cache = "started with " + board.size + "x" + board.size + " choose side X | O";
+    }
+
+    @Override
+    public String reset() {
+        board = new Board(3);
+        cache = "started with " + board.size + "x" + board.size + " choose side X | O";
+        playerCell = null;
+        return "Game reset";
     }
 
     public String load() {
@@ -47,11 +60,23 @@ public class TicTacToe implements Game, Serializable {
             return cache;
         }
         if (isFinished()) {
+            if (playerCell == Cell.Cross) {
+                crossTotal++;
+                crossWins++;
+            } else if (playerCell == Cell.Zero) {
+                zeroTotal++;
+                zeroWins++;
+            }
             cache = "\n" + "Игра окончена победа: " + playerCell;
             return cache;
         }
         var banswer = botTurn();
         if (isFinished()) {
+            if (playerCell == Cell.Cross) {
+                crossTotal++;
+            } else if (playerCell == Cell.Zero) {
+                zeroTotal++;
+            }
             cache = "Игра окончена победа: " + playerCell.not();
             return cache;
         }
@@ -81,4 +106,18 @@ public class TicTacToe implements Game, Serializable {
         return new Response(true, "Выберите другие координаты \n" + board.toString());
     }
 
+    @Override
+    public String getStatistics() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Games\n")
+                .append("   played: ").append(crossTotal + zeroTotal).append("\n")
+                .append("   won:    ").append(crossWins + zeroWins).append("\n");
+        sb.append("X\n")
+                .append("   played: ").append(crossTotal).append("\n")
+                .append("   won:    ").append(crossTotal).append("\n");
+        sb.append("0\n")
+                .append("   played: ").append(zeroTotal).append("\n")
+                .append("   won:    ").append(zeroTotal).append("\n");
+        return sb.toString();
+    }
 }
