@@ -19,7 +19,6 @@ public class Bot {
     public static Queue<String> gateIn;
     public static Queue<String> consoleIn;
     public static ArrayList<String> gateOut;
-    private static Boolean isAnswerAfterRead;
     private static Boolean isConsolePlaying;
 
     public Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
@@ -29,7 +28,6 @@ public class Bot {
         consoleIn = new LinkedList<>();
         gateOut = new ArrayList<>();
         isConsolePlaying = false;
-        isAnswerAfterRead = false;
         ChannelInitializer.main(new String[]{});
     }
 
@@ -50,7 +48,6 @@ public class Bot {
             sb.append('\n');
         }
         gateOut.clear();
-        isAnswerAfterRead = false;
         return sb.toString();
     }
 
@@ -65,7 +62,6 @@ public class Bot {
                 }
             }
             AsyncReader.interrupt();
-            isAnswerAfterRead = true;
             return consoleIn.remove();
         }
         while (gateIn.isEmpty()) {
@@ -75,7 +71,6 @@ public class Bot {
                 e.printStackTrace();
             }
         }
-        isAnswerAfterRead = true;
         return gateIn.remove();
     }
 
