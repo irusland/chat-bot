@@ -1,8 +1,12 @@
+<<<<<<< HEAD:project/src/channel/command/HelpCommand.java
 <<<<<<< HEAD:project/src/telegram_channel/command/HelpCommand 2.java
 package telegram_channel.command;
 =======
 package channel.command;
 >>>>>>> 0b09a81... Correct messaging + stats atarted:project/src/channel/command/HelpCommand.java
+=======
+package telegram_channel.command;
+>>>>>>> fec1c84... Channels switch:project/src/telegram_channel/command/HelpCommand.java
 
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

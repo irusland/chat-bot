@@ -1,4 +1,4 @@
-package channel;
+package telegram_channel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +14,8 @@ public final class ChannelInitializer {
 
     private static final String PROXY_HOST = "xx.xx.xxx.xxx";
     private static final int PROXY_PORT = 9999;
+
+    public static Channel channel;
 
     public static void main(String[] args) {
 
@@ -32,7 +34,8 @@ public final class ChannelInitializer {
 //            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
 
             LOG.info("Registering Anonymizer...");
-            botsApi.registerBot(new Channel(botOptions));
+            channel = new Channel(botOptions);
+            botsApi.registerBot(channel);
             LOG.info("Anonymizer bot is ready for work!");
 
         } catch (TelegramApiRequestException e) {

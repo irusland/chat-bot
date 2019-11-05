@@ -1,6 +1,6 @@
-package channel;
+package telegram_channel;
 
-import channel.service.PlayerService;
+import telegram_channel.service.PlayerService;
 import bot.Bot;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -14,11 +14,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.stream.Stream;
 
 
 
-public final class Channel extends TelegramLongPollingBot {
+public final class Channel extends TelegramLongPollingBot implements bot.Channel {
 
     private static final Logger LOG = LogManager.getLogger(Channel.class);
 
@@ -50,7 +52,7 @@ public final class Channel extends TelegramLongPollingBot {
             return;
         }
 
-        Bot.gateIn.add(msg.getText()); // SEND UPDATE
+        gate.add(msg.getText()); // SEND UPDATE
 
         String clearMessage = msg.getText();
         String messageForUsers = String.format("%s:\n%s", players.getDisplayedName(user), msg.getText());
@@ -123,5 +125,19 @@ public final class Channel extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             LOG.error("LogTemplate.MESSAGE_EXCEPTION.getTemplate()", user.getId(), e);
         }
+    }
+
+    public static Queue<String> gate = new LinkedList<>();
+
+    @Override
+    public String readQuery() {
+        while (gate.isEmpty()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return gate.remove();
     }
 }

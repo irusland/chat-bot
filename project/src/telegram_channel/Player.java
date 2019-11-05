@@ -1,4 +1,4 @@
-package channel;
+package telegram_channel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

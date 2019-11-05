@@ -1,8 +1,12 @@
+<<<<<<< HEAD:project/src/channel/command/AnonymizerCommand.java
 <<<<<<< HEAD:project/src/telegram_channel/command/AnonymizerCommand 2.java
 package telegram_channel.command;
 =======
 package channel.command;
 >>>>>>> 0b09a81... Correct messaging + stats atarted:project/src/channel/command/AnonymizerCommand.java
+=======
+package telegram_channel.command;
+>>>>>>> fec1c84... Channels switch:project/src/telegram_channel/command/AnonymizerCommand.java
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;

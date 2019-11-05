@@ -16,8 +16,7 @@ public class Calculator implements Game, Serializable {
     private final HashMap<String, Consumer<Integer>> operations = new HashMap<>();
     private boolean done;
 
-    private final ArrayList<String> history;
-    private StringBuilder sb;
+    private Stat stat;
 
     public Calculator() {
         operations.put("+", (Consumer<Integer> & Serializable)(Integer a) -> result += a);
@@ -26,9 +25,8 @@ public class Calculator implements Game, Serializable {
         operations.put("/", (Consumer<Integer> & Serializable)(Integer a) -> result /= a);
         operations.put("%", (Consumer<Integer> & Serializable)(Integer a) -> result %= a);
         cache = "Введите число";
+        stat = new Stat();
         isOperand = true;
-        history = new ArrayList<>();
-        sb = new StringBuilder();
     }
 
     @Override
@@ -43,7 +41,7 @@ public class Calculator implements Game, Serializable {
         isOperand = true;
         done = false;
         result = 0;
-        sb = new StringBuilder();
+        stat.sb = new StringBuilder();
         return "Game reset";
     }
 
@@ -59,10 +57,10 @@ public class Calculator implements Game, Serializable {
             }
             if (operation == null) {
                 result = number;
-                sb.append(result);
+                stat.sb.append(result);
             } else {
-                sb.append(operation).append(number).append(")");
-                sb.insert(0,"(");
+                stat.sb.append(operation).append(number).append(")");
+                stat.sb.insert(0,"(");
                 operations.get(operation).accept(number);
             }
             isOperand = false;
@@ -72,9 +70,9 @@ public class Calculator implements Game, Serializable {
             operation = query;
             if (operation.equals("=")) {
                 done = true;
-                sb.append("=").append(result).append("\n");
-                history.add(sb.toString());
-                sb = new StringBuilder();
+                stat.sb.append("=").append(result).append("\n");
+                stat.history.add(stat.sb.toString());
+                stat.sb = new StringBuilder();
                 cache = "➡ " + result;
                 return cache;
             }
@@ -95,11 +93,6 @@ public class Calculator implements Game, Serializable {
 
     @Override
     public String getStatistics() {
-        StringBuilder res = new StringBuilder();
-        res.append("Operation history\n");
-        for (String s : history) {
-            res.append(s);
-        }
-        return res.toString();
+        return stat.toString();
     }
 }

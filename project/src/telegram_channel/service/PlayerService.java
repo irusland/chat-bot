@@ -1,3 +1,4 @@
+<<<<<<< HEAD:project/src/channel/service/PlayerService.java
 <<<<<<< HEAD:project/src/telegram_channel/service/PlayerService 2.java
 package telegram_channel.service;
 
@@ -7,6 +8,11 @@ package channel.service;
 
 import channel.Player;
 >>>>>>> 0b09a81... Correct messaging + stats atarted:project/src/channel/service/PlayerService.java
+=======
+package telegram_channel.service;
+
+import telegram_channel.Player;
+>>>>>>> fec1c84... Channels switch:project/src/telegram_channel/service/PlayerService.java
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.HashSet;

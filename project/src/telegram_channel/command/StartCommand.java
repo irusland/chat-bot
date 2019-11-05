@@ -1,3 +1,4 @@
+<<<<<<< HEAD:project/src/channel/command/StartCommand.java
 <<<<<<< HEAD:project/src/telegram_channel/command/StartCommand 2.java
 package telegram_channel.command;
 
@@ -9,6 +10,12 @@ package channel.command;
 import channel.Player;
 import channel.service.PlayerService;
 >>>>>>> 0b09a81... Correct messaging + stats atarted:project/src/channel/command/StartCommand.java
+=======
+package telegram_channel.command;
+
+import telegram_channel.Player;
+import telegram_channel.service.PlayerService;
+>>>>>>> fec1c84... Channels switch:project/src/telegram_channel/command/StartCommand.java
 import org.apache.logging.log4j.Level;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
