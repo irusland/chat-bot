@@ -4,7 +4,6 @@ package game.calculator;
 import game.Game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
@@ -41,7 +40,7 @@ public class Calculator implements Game, Serializable {
         isOperand = true;
         done = false;
         result = 0;
-        stat.sb = new StringBuilder();
+        stat.saveToHistory();
         return "Game reset";
     }
 
@@ -57,10 +56,9 @@ public class Calculator implements Game, Serializable {
             }
             if (operation == null) {
                 result = number;
-                stat.sb.append(result);
+                stat.startAppend(result);
             } else {
-                stat.sb.append(operation).append(number).append(")");
-                stat.sb.insert(0,"(");
+                stat.appendWithBrackets(operation, number);
                 operations.get(operation).accept(number);
             }
             isOperand = false;
@@ -70,9 +68,8 @@ public class Calculator implements Game, Serializable {
             operation = query;
             if (operation.equals("=")) {
                 done = true;
-                stat.sb.append("=").append(result).append("\n");
-                stat.history.add(stat.sb.toString());
-                stat.sb = new StringBuilder();
+                stat.endAppend(result);
+                stat.saveToHistory();
                 cache = "➡ " + result;
                 return cache;
             }
