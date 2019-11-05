@@ -4,14 +4,34 @@ import java.io.Serializable;
 import static java.lang.Math.round;
 
 public class Stat implements Serializable {
-    public int gameWins;
-    public int playerShots;
-    public int playerPreciseShots;
-    public int botShots;
-    public int botPreciseShots;
+    private int gameWins;
+    private int playerShots;
+    private int playerPreciseShots;
+    private int botShots;
+    private int botPreciseShots;
 
     public Stat() {
 
+    }
+
+    public void incGameWins() {
+        gameWins++;
+    }
+
+    public void incPlayerShots() {
+        playerShots++;
+    }
+
+    public void incPlayerPreciseShots() {
+        playerPreciseShots++;
+    }
+
+    public void incBotShots() {
+        botShots++;
+    }
+
+    public void incBotPreciseShots() {
+        botPreciseShots++;
     }
 
     public String toString() {

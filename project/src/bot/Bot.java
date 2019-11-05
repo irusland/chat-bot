@@ -29,7 +29,7 @@ public class Bot {
         channels = new HashMap<>();
         channels.put(ChannelType.Telegram, ChannelInitializer.channel);
         channels.put(ChannelType.Console, new ConsoleChannel());
-        active_channel = ChannelType.Telegram;
+        active_channel = ChannelType.Console;
     }
 
     public static String getAnswer() {
