@@ -5,8 +5,6 @@ import game.Game;
 import java.awt.*;
 import java.io.Serializable;
 
-import static java.lang.Math.round;
-
 public class ShipWars implements Game, Serializable {
     private Board board;
     private Board opponentBoard;
@@ -14,11 +12,7 @@ public class ShipWars implements Game, Serializable {
     private boolean prepared;
     private String cache;
 
-    private int gameWins;
-    private int playerShots;
-    private int playerPreciseShots;
-    private int botShots;
-    private int botPreciseShots;
+    private Stat stat;
 
     public ShipWars() {
         var size = 10;
@@ -28,6 +22,7 @@ public class ShipWars implements Game, Serializable {
         prepared = false;
         board.shuffle();
         opponentBoard.shuffle();
+        stat = new Stat();
         cache = "generated \n" + board.toString() + opponentBoard.toOpponentString();
     }
 
@@ -58,12 +53,12 @@ public class ShipWars implements Game, Serializable {
             return "Не верные координаты";
         }
         if (board.shoot(opponent.getChoice())) {
-            botPreciseShots++;
+            stat.botPreciseShots++;
         }
-        botShots++;
-        playerShots++;
+        stat.botShots++;
+        stat.playerShots++;
         if (opponentBoard.shoot(new Point(x, y))) {
-            playerPreciseShots++;
+            stat.playerPreciseShots++;
             cache = "\n" + "Ранил \n" + board.toString() + opponentBoard.toOpponentString();
             return cache;
         }
@@ -75,7 +70,7 @@ public class ShipWars implements Game, Serializable {
         var humanShipsCount = board.getShipsAlive();
         var botShipsCount = opponentBoard.getShipsAlive();
         if (humanShipsCount == 0 || botShipsCount == 0) {
-            gameWins++;
+            stat.gameWins++;
             return true;
         }
         return false;
@@ -83,17 +78,6 @@ public class ShipWars implements Game, Serializable {
 
     @Override
     public String getStatistics() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Games won:  ").append(gameWins).append("\n");
-        sb.append("Ships down: ").append(playerShots).append("\n");
-        int playerPrecision = 0;
-        if (playerShots != 0)
-            playerPrecision = round((((float)playerPreciseShots / playerShots) * 100));
-        sb.append("Player shot precision: ").append(playerPrecision).append("%").append("\n");
-        int botPrecision = 0;
-        if (playerShots != 0)
-            botPrecision = round((((float)botPreciseShots / botShots) * 100));
-        sb.append("Bot shot precision:    ").append(botPrecision).append("%").append("\n");
-        return sb.toString();
+        return stat.toString();
     }
 }

@@ -1,6 +1,8 @@
 package bot;
 
-import channel.ChannelInitializer;
+import console_channel.ConsoleChannel;
+import telegram_channel.Channel;
+import telegram_channel.ChannelInitializer;
 import auth.Auth;
 import game.Game;
 import game.calculator.Calculator;
@@ -10,29 +12,29 @@ import game.tictactoe.TicTacToe;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Bot {
-    private static BufferedReader reader;
     private static PrintStream writer;
-    public static Queue<String> gateIn;
-    public static Queue<String> consoleIn;
     public static ArrayList<String> gateOut;
-    private static Boolean isConsolePlaying;
+
+    private static HashMap<String, bot.Channel> channels;
+    private static String active_channel;
 
     public Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
-        reader = new BufferedReader(new InputStreamReader(System.in));
         writer = System.out;
-        gateIn = new LinkedList<>();
-        consoleIn = new LinkedList<>();
         gateOut = new ArrayList<>();
-        isConsolePlaying = false;
         ChannelInitializer.main(new String[]{});
+        channels = new HashMap<>();
+        channels.put("telegram", ChannelInitializer.channel);
+        channels.put("console", new ConsoleChannel());
+        active_channel = "telegram";
     }
 
     public static String getAnswer() {
-        if (isConsolePlaying) {
+        if (active_channel.equals("console")) {
             return "Player is in console";
         }
         while (gateOut.isEmpty()) {
@@ -52,30 +54,11 @@ public class Bot {
     }
 
     private String readQuery() {
-        if (isConsolePlaying) {
-            AsyncReader.asyncRead(consoleIn);
-            while (consoleIn.isEmpty()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            AsyncReader.interrupt();
-            return consoleIn.remove();
-        }
-        while (gateIn.isEmpty()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return gateIn.remove();
+        return channels.get(active_channel).readQuery();
     }
 
     private void sendOutput() {
-        if (isConsolePlaying)
+        if (active_channel.equals("console"))
             writer.println(sb.toString());
         else
             gateOut.add(sb.toString());
@@ -136,12 +119,13 @@ public class Bot {
                         Auth.logout();
                         break;
                     case "/switch":
-                        if (!isConsolePlaying) {
+                        if (!active_channel.equals("console")) {
                             enqueueOutput("Switched to console");
+                            active_channel = "console";
                         } else {
                             enqueueOutput("Switched to telegram");
+                            active_channel = "telegram";
                         }
-                        isConsolePlaying = !isConsolePlaying;
                         break;
                     default:
                         enqueueOutput("Неправильный выбор");

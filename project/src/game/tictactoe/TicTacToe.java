@@ -10,13 +10,11 @@ public class TicTacToe implements Game, Serializable {
     private Board board;
     private String cache;
 
-    private int crossTotal;
-    private int crossWins;
-    private int zeroTotal;
-    private int zeroWins;
+    private Stat stat;
 
     public TicTacToe() {
         board = new Board(3);
+        stat = new Stat();
         cache = "started with " + board.size + "x" + board.size + " choose side X | O";
     }
 
@@ -61,11 +59,11 @@ public class TicTacToe implements Game, Serializable {
         }
         if (isFinished()) {
             if (playerCell == Cell.Cross) {
-                crossTotal++;
-                crossWins++;
+                stat.crossTotal++;
+                stat.crossWins++;
             } else if (playerCell == Cell.Zero) {
-                zeroTotal++;
-                zeroWins++;
+                stat.zeroTotal++;
+                stat.zeroWins++;
             }
             cache = "\n" + "Игра окончена победа: " + playerCell;
             return cache;
@@ -73,9 +71,9 @@ public class TicTacToe implements Game, Serializable {
         var banswer = botTurn();
         if (isFinished()) {
             if (playerCell == Cell.Cross) {
-                crossTotal++;
+                stat.crossTotal++;
             } else if (playerCell == Cell.Zero) {
-                zeroTotal++;
+                stat.zeroTotal++;
             }
             cache = "Игра окончена победа: " + playerCell.not();
             return cache;
@@ -108,16 +106,6 @@ public class TicTacToe implements Game, Serializable {
 
     @Override
     public String getStatistics() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Games\n")
-                .append("   played: ").append(crossTotal + zeroTotal).append("\n")
-                .append("   won:    ").append(crossWins + zeroWins).append("\n");
-        sb.append("X\n")
-                .append("   played: ").append(crossTotal).append("\n")
-                .append("   won:    ").append(crossTotal).append("\n");
-        sb.append("0\n")
-                .append("   played: ").append(zeroTotal).append("\n")
-                .append("   won:    ").append(zeroTotal).append("\n");
-        return sb.toString();
+        return stat.toStringStat();
     }
 }
