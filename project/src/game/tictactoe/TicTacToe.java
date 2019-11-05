@@ -59,11 +59,11 @@ public class TicTacToe implements Game, Serializable {
         }
         if (isFinished()) {
             if (playerCell == Cell.Cross) {
-                stat.crossTotal++;
-                stat.crossWins++;
+                stat.incCrossTotal();
+                stat.incCrossWins();
             } else if (playerCell == Cell.Zero) {
-                stat.zeroTotal++;
-                stat.zeroWins++;
+                stat.incZeroTotal();
+                stat.incZeroWins();
             }
             cache = "\n" + "Игра окончена победа: " + playerCell;
             return cache;
@@ -71,9 +71,9 @@ public class TicTacToe implements Game, Serializable {
         var banswer = botTurn();
         if (isFinished()) {
             if (playerCell == Cell.Cross) {
-                stat.crossTotal++;
+                stat.incCrossTotal();
             } else if (playerCell == Cell.Zero) {
-                stat.zeroTotal++;
+                stat.incZeroTotal();
             }
             cache = "Игра окончена победа: " + playerCell.not();
             return cache;
