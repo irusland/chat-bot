@@ -9,7 +9,6 @@ public class ShipWars implements Game, Serializable {
     private Board board;
     private Board opponentBoard;
     private GameBot opponent;
-    private boolean prepared;
     private String cache;
 
     private Stat stat;
@@ -19,7 +18,6 @@ public class ShipWars implements Game, Serializable {
         board = new Board(this, size);
         opponentBoard = new Board(this, size);
         opponent = new GameBot(opponentBoard);
-        prepared = false;
         board.shuffle();
         opponentBoard.shuffle();
         stat = new Stat();
@@ -32,7 +30,6 @@ public class ShipWars implements Game, Serializable {
         board = new Board(this, size);
         opponentBoard = new Board(this, size);
         opponent = new GameBot(opponentBoard);
-        prepared = false;
         board.shuffle();
         opponentBoard.shuffle();
         cache = "generated \n" + board.toString() + opponentBoard.toOpponentString();
@@ -53,12 +50,12 @@ public class ShipWars implements Game, Serializable {
             return "Не верные координаты";
         }
         if (board.shoot(opponent.getChoice())) {
-            stat.botPreciseShots++;
+            stat.incBotPreciseShots();
         }
-        stat.botShots++;
-        stat.playerShots++;
+        stat.incBotShots();
+        stat.incPlayerShots();
         if (opponentBoard.shoot(new Point(x, y))) {
-            stat.playerPreciseShots++;
+            stat.incPlayerPreciseShots();
             cache = "\n" + "Ранил \n" + board.toString() + opponentBoard.toOpponentString();
             return cache;
         }
@@ -70,7 +67,7 @@ public class ShipWars implements Game, Serializable {
         var humanShipsCount = board.getShipsAlive();
         var botShipsCount = opponentBoard.getShipsAlive();
         if (humanShipsCount == 0 || botShipsCount == 0) {
-            stat.gameWins++;
+            stat.incGameWins();
             return true;
         }
         return false;
