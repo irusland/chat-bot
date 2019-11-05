@@ -1,7 +1,6 @@
 package bot;
 
 import console_channel.ConsoleChannel;
-import telegram_channel.Channel;
 import telegram_channel.ChannelInitializer;
 import auth.Auth;
 import game.Game;
@@ -20,17 +19,17 @@ public class Bot {
     private static PrintStream writer;
     public static ArrayList<String> gateOut;
 
-    private static HashMap<String, bot.Channel> channels;
-    private static String active_channel;
+    private static HashMap<ChannelType, bot.Channel> channels;
+    private static ChannelType active_channel;
 
     public Bot(InputStream in, PrintStream out) throws IOException, ClassNotFoundException {
         writer = System.out;
         gateOut = new ArrayList<>();
         ChannelInitializer.main(new String[]{});
         channels = new HashMap<>();
-        channels.put("telegram", ChannelInitializer.channel);
-        channels.put("console", new ConsoleChannel());
-        active_channel = "telegram";
+        channels.put(ChannelType.Telegram, ChannelInitializer.channel);
+        channels.put(ChannelType.Console, new ConsoleChannel());
+        active_channel = ChannelType.Telegram;
     }
 
     public static String getAnswer() {
@@ -58,7 +57,7 @@ public class Bot {
     }
 
     private void sendOutput() {
-        if (active_channel.equals("console"))
+        if (active_channel == ChannelType.Console)
             writer.println(sb.toString());
         else
             gateOut.add(sb.toString());
@@ -119,13 +118,12 @@ public class Bot {
                         Auth.logout();
                         break;
                     case "/switch":
-                        if (!active_channel.equals("console")) {
+                        if (active_channel != ChannelType.Console) {
                             enqueueOutput("Switched to console");
-                            active_channel = "console";
                         } else {
                             enqueueOutput("Switched to telegram");
-                            active_channel = "telegram";
                         }
+                        active_channel = active_channel.switchChannel();
                         break;
                     default:
                         enqueueOutput("Неправильный выбор");
