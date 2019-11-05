@@ -3,13 +3,29 @@ package game.tictactoe;
 import java.io.Serializable;
 
 public class Stat implements Serializable {
-    public int crossTotal;
-    public int crossWins;
-    public int zeroTotal;
-    public int zeroWins;
+    private int crossTotal;
+    private int crossWins;
+    private int zeroTotal;
+    private int zeroWins;
 
     public Stat() {
 
+    }
+
+    public void incCrossTotal() {
+        crossTotal++;
+    }
+
+    public void incCrossWins() {
+        crossWins++;
+    }
+
+    public void incZeroTotal() {
+        zeroTotal++;
+    }
+
+    public void incZeroWins() {
+        zeroWins++;
     }
 
     public String toStringStat() {
