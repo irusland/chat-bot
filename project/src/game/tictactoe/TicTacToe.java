@@ -32,9 +32,9 @@ public class TicTacToe implements Game, Serializable {
 
     public String request(String query) throws Exception {
         if (playerCell == null) {
-            if (query.equals(Cell.Cross.toString())) {
+            if (query.equalsIgnoreCase(Cell.Cross.toString())) {
                 playerCell = Cell.Cross;
-            } else if (query.equals(Cell.Zero.toString())) {
+            } else if (query.equals(Cell.Zero.toString()) || query.equalsIgnoreCase("O")) {
                 playerCell = Cell.Zero;
             } else {
                 cache = "Выберите X | O";
@@ -49,7 +49,7 @@ public class TicTacToe implements Game, Serializable {
             x = Integer.parseInt(Character.toString(query.charAt(0)));
             y = Integer.parseInt(Character.toString(query.charAt(1)));
         } catch (Exception e) {
-            cache = "Не верные координаты";
+            cache = "Неверные координаты";
             return cache;
         }
         var answer = turn(x, y);
@@ -65,8 +65,8 @@ public class TicTacToe implements Game, Serializable {
                 stat.incZeroTotal();
                 stat.incZeroWins();
             }
-            cache = "\n" + "Игра окончена победа: " + playerCell;
-            return cache;
+            cache = "\n" + "Игра окончена победа: " + playerCell + "\n";
+            return cache + board.toString();
         }
         var banswer = botTurn();
         if (isFinished()) {
@@ -75,8 +75,8 @@ public class TicTacToe implements Game, Serializable {
             } else if (playerCell == Cell.Zero) {
                 stat.incZeroTotal();
             }
-            cache = "Игра окончена победа: " + playerCell.not();
-            return cache;
+            cache = "Игра окончена победа: " + playerCell.not() + "\n";
+            return cache + board.toString();
         }
         return board.toString();
     }
