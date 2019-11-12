@@ -25,7 +25,7 @@ public final class Channel extends TelegramLongPollingBot implements bot.Channel
     private static final Logger LOG = LogManager.getLogger(Channel.class);
 
     private static final String BOT_NAME = "Jovajbot";
-    private static final String BOT_TOKEN = "843494970:AAGmf3kRRpEGnyOkyils3f9xbsmBmlK7eEw";
+    private static final String BOT_TOKEN = System.getProperty("TOKEN");
 
     private final PlayerService players;
 
