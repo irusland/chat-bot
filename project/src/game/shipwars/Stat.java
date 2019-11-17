@@ -1,9 +1,10 @@
 package game.shipwars;
 
-import java.io.Serializable;
+import game.Statistic;
+
 import static java.lang.Math.round;
 
-public class Stat implements Serializable {
+public class Stat implements Statistic {
     private int gameWins;
     private int playerShots;
     private int playerPreciseShots;
@@ -34,7 +35,7 @@ public class Stat implements Serializable {
         botPreciseShots++;
     }
 
-    public String toString() {
+    public String toStringStat() {
         StringBuilder sb = new StringBuilder();
         sb.append("Games won:  ").append(gameWins).append("\n");
         sb.append("Ships down: ").append(playerShots).append("\n");

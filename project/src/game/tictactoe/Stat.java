@@ -1,8 +1,8 @@
 package game.tictactoe;
 
-import java.io.Serializable;
+import game.Statistic;
 
-public class Stat implements Serializable {
+public class Stat implements Statistic {
     private int crossTotal;
     private int crossWins;
     private int zeroTotal;

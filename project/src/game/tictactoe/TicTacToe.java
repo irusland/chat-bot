@@ -2,10 +2,9 @@ package game.tictactoe;
 
 import game.Game;
 
-import java.io.Serializable;
 import java.util.Random;
 
-public class TicTacToe implements Game, Serializable {
+public class TicTacToe implements Game {
     private Cell playerCell;
     private Board board;
     private String cache;

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class Calculator implements Game, Serializable {
+public class Calculator implements Game {
     private String cache;
     private int result;
     private boolean isOperand;
@@ -90,6 +90,6 @@ public class Calculator implements Game, Serializable {
 
     @Override
     public String getStatistics() {
-        return stat.toString();
+        return stat.toStringStat();
     }
 }

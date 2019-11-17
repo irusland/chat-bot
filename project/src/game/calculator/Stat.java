@@ -1,11 +1,10 @@
 package game.calculator;
 
-import java.io.Serializable;
+import game.Statistic;
+
 import java.util.ArrayList;
 
-import static java.lang.Math.round;
-
-public class Stat implements Serializable {
+public class Stat implements Statistic {
     private final ArrayList<String> history;
     private StringBuilder sb;
 
@@ -14,7 +13,7 @@ public class Stat implements Serializable {
         sb = new StringBuilder();
     }
 
-    public String toString() {
+    public String toStringStat() {
         StringBuilder res = new StringBuilder();
         res.append("Operation history\n");
         for (String s : history) {

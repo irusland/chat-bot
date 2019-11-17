@@ -2,7 +2,7 @@ package game;
 
 import java.io.Serializable;
 
-public interface Game {
+public interface Game extends Serializable {
     String load();
     default String reset() {
         return "No reset for this game";

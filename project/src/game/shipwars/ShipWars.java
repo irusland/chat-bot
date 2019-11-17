@@ -3,9 +3,8 @@ package game.shipwars;
 import game.Game;
 
 import java.awt.*;
-import java.io.Serializable;
 
-public class ShipWars implements Game, Serializable {
+public class ShipWars implements Game {
     private Board board;
     private Board opponentBoard;
     private GameBot opponent;
@@ -75,6 +74,6 @@ public class ShipWars implements Game, Serializable {
 
     @Override
     public String getStatistics() {
-        return stat.toString();
+        return stat.toStringStat();
     }
 }
