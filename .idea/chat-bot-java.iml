@@ -24,15 +24,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="json-simple-1.1.1" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/telegrambots-4.4.0-jar-with-dependencies.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" exported="" name="telegram" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
