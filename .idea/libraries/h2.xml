@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="h2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/extlibs/h2" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/extlibs/h2/src/java9/src" />
+      <root url="file://$PROJECT_DIR$/extlibs/h2/src/main" />
+      <root url="file://$PROJECT_DIR$/extlibs/h2/src/test" />
+      <root url="file://$PROJECT_DIR$/extlibs/h2/src/tools" />
+    </SOURCES>
+  </library>
+</component>

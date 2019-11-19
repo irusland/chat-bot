@@ -12,8 +12,10 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class Bot {
     private static PrintStream writer;
