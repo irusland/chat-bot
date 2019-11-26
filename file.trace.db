@@ -19,7 +19,7 @@ INSERT INTO TEST VALUES(default,'HELLO') [21002-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:17)
+	at bot.Database.main(ConnectH2.java:17)
 2019-11-19 09:53:55 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
 INSERT INTO TEST VALUES(default,'HELLO') [21002-199]
@@ -35,7 +35,7 @@ INSERT INTO TEST VALUES(default,'HELLO') [21002-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:17)
+	at bot.Database.main(ConnectH2.java:17)
 2019-11-19 09:58:15 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
 INSERT INTO TEST VALUES(default,'HELLO') [21002-199]
@@ -51,7 +51,7 @@ INSERT INTO TEST VALUES(default,'HELLO') [21002-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:17)
+	at bot.Database.main(ConnectH2.java:17)
 2019-11-19 09:58:32 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST(NAME) VALUES('JOHN') [42122-199]
@@ -73,7 +73,7 @@ INSERT INTO TEST(NAME) VALUES('JOHN') [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:18)
+	at bot.Database.main(ConnectH2.java:18)
 2019-11-19 09:58:42 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST(name) VALUES('JOHN') [42122-199]
@@ -95,7 +95,7 @@ INSERT INTO TEST(name) VALUES('JOHN') [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:18)
+	at bot.Database.main(ConnectH2.java:18)
 2019-11-19 10:00:40 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST(name) 'JOHN' [42122-199]
@@ -117,7 +117,7 @@ INSERT INTO TEST(name) 'JOHN' [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:18)
+	at bot.Database.main(ConnectH2.java:18)
 2019-11-19 10:06:40 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
@@ -139,7 +139,7 @@ INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:18)
+	at bot.Database.main(ConnectH2.java:18)
 2019-11-19 10:06:54 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
@@ -161,7 +161,7 @@ INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:18)
+	at bot.Database.main(ConnectH2.java:18)
 2019-11-19 10:07:30 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "ID" not found; SQL statement:
 select * from test  where id=5 [42122-199]
@@ -179,7 +179,7 @@ select * from test  where id=5 [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:18)
+	at bot.Database.main(ConnectH2.java:18)
 2019-11-19 10:12:11 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
@@ -201,7 +201,7 @@ INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:20)
+	at bot.Database.main(ConnectH2.java:20)
 2019-11-19 10:12:33 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
 INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
@@ -223,4 +223,369 @@ INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
 	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
 	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at bot.ConnectH2.main(ConnectH2.java:21)
+	at bot.Database.main(ConnectH2.java:21)
+2019-11-26 09:05:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO TEST (NAME) VALUES ('JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:10:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+INSERT INTO TEST VALUES ('JOHN', 'database') [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:11:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO TEST (NAME) VALUES ('JOHN', 'database') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:11:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO TEST ('NAME'[*]) VALUES ('JOHN', 'database')"; expected "identifier"; SQL statement:
+INSERT INTO TEST ('NAME') VALUES ('JOHN', 'database') [42001-199]
+2019-11-26 09:12:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO TEST (*[*]) VALUES ('JOHN', 'database')"; expected "identifier"; SQL statement:
+INSERT INTO TEST (*) VALUES ('JOHN', 'database') [42001-199]
+2019-11-26 09:12:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO TEST ('NAME'[*]*) VALUES ('JOHN', 'database')"; expected "identifier"; SQL statement:
+INSERT INTO TEST ('NAME'*) VALUES ('JOHN', 'database') [42001-199]
+2019-11-26 09:12:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO TEST ('NAME'[*]) VALUES ('JOHN')"; expected "identifier"; SQL statement:
+INSERT INTO TEST ('NAME') VALUES ('JOHN') [42001-199]
+2019-11-26 09:12:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+INSERT INTO TEST VALUES ('JOHN') [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:13:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO test (name) VALUES ('JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "ID" not found; SQL statement:
+INSERT INTO test (id, name) VALUES (1, 'JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:14:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO test (name) VALUES ('JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:15:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO test (name) VALUES ('JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:16:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO test (name) VALUES (default, 'JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:17:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found; SQL statement:
+INSERT INTO test (name) VALUES (default, 'JOHN') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at bot.Database.main(ConnectH2.java:18)
+2019-11-26 09:18:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TEST" already exists; SQL statement:
+CREATE TABLE test (id INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR) [42101-199]
+2019-11-26 09:47:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NAME" not found [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.jdbc.JdbcResultSet.getColumnIndex(JdbcResultSet.java:3214)
+	at org.h2.jdbc.JdbcResultSet.get(JdbcResultSet.java:3287)
+	at org.h2.jdbc.JdbcResultSet.getString(JdbcResultSet.java:314)
+	at bot.Database.main(Database.java:64)
+2019-11-26 09:52:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM TEST ORDERBY ID[*] LIMIT 1"; SQL statement:
+SELECT * FROM TEST ORDERBY ID LIMIT 1 [42000-199]
+2019-11-26 09:52:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM TEST ORDER BY BY ID[*] LIMIT 1 "; SQL statement:
+SELECT * FROM TEST ORDER BY by ID LIMIT 1 [42000-199]
+2019-11-26 09:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM TEST ORDER BY DESC ID[*] LIMIT 1"; SQL statement:
+SELECT * FROM TEST ORDER BY DESC ID LIMIT 1 [42000-199]
+2019-11-26 10:21:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+insert into TEST values(? ) [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:77)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:349)
+	at bot.Database.insert(Database.java:50)
+	at bot.Database.main(Database.java:74)
+2019-11-26 10:24:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+insert into TEST values(?) [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:77)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:349)
+	at bot.Database.insert(Database.java:51)
+	at bot.Database.main(Database.java:75)
+2019-11-26 10:25:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+insert into TEST values(?) [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:77)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:349)
+	at bot.Database.insert(Database.java:51)
+	at bot.Database.main(Database.java:76)
+2019-11-26 10:25:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+insert into TEST values(?) [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:77)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:349)
+	at bot.Database.insert(Database.java:53)
+	at bot.Database.main(Database.java:77)
+2019-11-26 10:27:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP TABLETEST[*]"; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
+DROP TABLETEST [42001-199]
+2019-11-26 10:28:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is only allowed for a query. Use execute or executeUpdate instead of executeQuery; SQL statement:
+DROP TABLE TEST [90002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.Prepared.query(Prepared.java:229)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:145)
+	at org.h2.command.Command.executeQuery(Command.java:202)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:85)
+	at bot.Database.<init>(Database.java:28)
+	at bot.Database.main(Database.java:77)
+2019-11-26 10:28:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+insert into TEST values(?) [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:77)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:349)
+	at bot.Database.insert(Database.java:54)
+	at bot.Database.main(Database.java:78)
+2019-11-26 10:28:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-199]
+2019-11-26 10:28:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-199]
+2019-11-26 10:29:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+insert into TEST values(?) [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:77)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:349)
+	at bot.Database.insert(Database.java:53)
+	at bot.Database.main(Database.java:77)
