@@ -1,5 +1,7 @@
 package bot;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.*;
@@ -24,6 +26,10 @@ public class Database {
         st = db.createStatement();
         String sql = "CREATE TABLE IF NOT EXISTS " + table +
                 " (id INT AUTO_INCREMENT PRIMARY KEY, " + cols + ")";
+        ResultSet cont = st.executeQuery("show columns from "+ table);
+        while (cont.next()) {
+            System.out.println(cont.getString(1));
+        }
         System.out.println(sql);
         st.execute(sql);
     }
@@ -47,24 +53,41 @@ public class Database {
     }
 
     public void insert(ArrayList<String> vars) throws Exception {
-        String questions = "?" + " ?".repeat(vars.size() - 1);
-        String query = "insert into " + table + " values(" + questions + ")";
+        String questions = "?" + ", ?".repeat(vars.size() - 1);
+        String query = "INSERT INTO " + table + " VALUES (NULL, " + questions + ");";
         PreparedStatement st1 = null;
         st1 = db.prepareStatement(query);
         for (var i = 1; i <= vars.size(); i++) {
-            st1.setString(i, vars.get(i));
+            st1.setString(i, vars.get(i - 1));
         }
-        st1.execute();
+        var s = st1.executeUpdate();
+        System.out.println(s);
     }
 
     public HashMap<String, String> selectLast(ArrayList<String> names) throws Exception {
         Statement st = db.createStatement();
         ResultSet result;
         result = st.executeQuery("SELECT * FROM " + table + " ORDER BY ID DESC LIMIT 1");
+        result.next();
         HashMap<String, String> map = new HashMap<>();
         for (String column : names) {
             String value = result.getString(column);
             map.put(column, value);
+            System.out.println(value);
+        }
+        return map;
+    }
+
+    public HashMap<String, String> selectList(ArrayList<String> names) throws Exception {
+        Statement st = db.createStatement();
+        ResultSet result;
+        result = st.executeQuery("SELECT * FROM " + table);
+        result.next();
+        HashMap<String, String> map = new HashMap<>();
+        for (String column : names) {
+            String value = result.getString(column);
+            map.put(column, value);
+            System.out.println(value);
         }
         return map;
     }
@@ -73,8 +96,13 @@ public class Database {
         try {
             HashMap<String, String> types = new HashMap<>();
             types.put("NAME", "VARCHAR");
-            Database database = new Database("TEST", types);
-            database.insert(new ArrayList<>(types.keySet()));
+            types.put("SUR", "VARCHAR");
+            Database database = new Database("TEST2", types);
+
+            ArrayList<String> a = new ArrayList<>();
+            a.add("NIK");
+            a.add("SiNAMEr");
+            database.insert(new ArrayList<>(a));
             HashMap<String, String> res = database.selectLast(new ArrayList<>(types.keySet()));
             System.out.println(res);
         } catch (Exception e) {
