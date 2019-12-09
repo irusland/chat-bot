@@ -1,7 +1,9 @@
 package game.calculator;
 
+import auth.Auth;
 import bot.Database;
 import game.Statistic;
+import bot.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,18 +11,25 @@ import java.util.HashMap;
 public class Stat implements Statistic {
     private final ArrayList<String> history;
     private StringBuilder sb;
-    private HashMap<String, String> types = new HashMap<>();
+    private ArrayList<Pair<String, String>> types = new ArrayList<>();
+    private String table = "CALCSTAT";
 
     public Stat() {
         history = new ArrayList<>();
         sb = new StringBuilder();
-        types.put("LINE", "VARCHAR");
+        types.add(new Pair<>("LINE", "VARCHAR"));
 
         try {
-            Database database = new Database("CALCSTAT", types);
+            Database database = new Database(table, types);
 
-            HashMap<String, String> res = database.selectLast(new ArrayList<>(types.keySet()));
-            System.out.println(res);
+
+            ArrayList<HashMap<String, String>> rows = database.selectList(types, Auth.getPersonName());
+            for (HashMap<String, String> row: rows) {
+                for (Pair<String, String> column: types) {
+                    String line = row.get(column.getFirst());
+                    history.add(line);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,11 +56,11 @@ public class Stat implements Statistic {
     public void saveToHistory() {
         history.add(sb.toString());
 
-        ArrayList<String> a = new ArrayList<>();
-        a.add(sb.toString());
+        ArrayList<Pair<String, String>> a = new ArrayList<>();
+        a.add(new Pair<>("LINE", sb.toString()));
         try {
-            Database database = new Database("CALCSTAT", types);
-            database.insert(new ArrayList<>(a));
+            Database database = new Database(table, types);
+            database.insert(new ArrayList<>(a), Auth.getPersonName());
         } catch (Exception e) {
             e.printStackTrace();
         }

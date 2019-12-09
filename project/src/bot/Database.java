@@ -1,7 +1,9 @@
 package bot;
 
 import org.checkerframework.checker.units.qual.A;
+import bot.Pair;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.*;
@@ -12,7 +14,7 @@ import java.util.HashMap;
 public class Database {
     private Connection db;
     private String table;
-    public Database(String table, HashMap<String, String> typedNames) throws Exception {
+    public Database(String table, ArrayList<Pair<String, String>> typedNames) throws Exception {
 
         this.table = table;
         db = connect();
@@ -25,19 +27,19 @@ public class Database {
         Statement st = null;
         st = db.createStatement();
         String sql = "CREATE TABLE IF NOT EXISTS " + table +
-                " (id INT AUTO_INCREMENT PRIMARY KEY, " + cols + ")";
+                " (id INT AUTO_INCREMENT PRIMARY KEY, person VARCHAR, " + cols + ")";
         ResultSet cont = st.executeQuery("show columns from "+ table);
-        while (cont.next()) {
-            System.out.println(cont.getString(1));
-        }
-        System.out.println(sql);
+//        while (cont.next()) {
+//            System.out.println(cont.getString(1));
+//        }
+//        System.out.println(sql);
         st.execute(sql);
     }
 
-    private ArrayList<String> getTypedColumns(HashMap<String, String> typedNames) {
+    private ArrayList<String> getTypedColumns(ArrayList<Pair<String, String>> typedNames) {
         ArrayList<String> typed_columns = new ArrayList<>();
-        for (String name : typedNames.keySet()) {
-            typed_columns.add(name + " " + typedNames.get(name));
+        for (Pair<String, String> name : typedNames) {
+            typed_columns.add(name.getFirst() + " " + name.getSecond());
         }
         return typed_columns;
     }
@@ -52,59 +54,108 @@ public class Database {
                 "sa", "");
     }
 
-    public void insert(ArrayList<String> vars) throws Exception {
+    public void insert(ArrayList<Pair<String, String>> vars, String person) throws Exception {
         String questions = "?" + ", ?".repeat(vars.size() - 1);
-        String query = "INSERT INTO " + table + " VALUES (NULL, " + questions + ");";
+        String query = "INSERT INTO " + table + " VALUES (NULL, ?, " + questions + ");";
         PreparedStatement st1 = null;
         st1 = db.prepareStatement(query);
+        st1.setString(1, person);
         for (var i = 1; i <= vars.size(); i++) {
-            st1.setString(i, vars.get(i - 1));
+            st1.setString(i + 1, vars.get(i - 1).getSecond());
         }
         var s = st1.executeUpdate();
-        System.out.println(s);
     }
 
-    public HashMap<String, String> selectLast(ArrayList<String> names) throws Exception {
+    public void insertPositional(ArrayList<Pair<String, String>> vars, String person) throws Exception {
+        String questions = "?" + ", ?".repeat(vars.size() - 1);
+
+        StringBuilder names = new StringBuilder();
+        names.append(vars.get(0).getFirst());
+        for (var i = 1; i < vars.size(); i++) {
+            names.append(", ").append(vars.get(i).getFirst());
+        }
+        String query = "INSERT INTO " + table + " " +
+                "(ID, PERSON, " + names.toString() + ") " +
+                "VALUES (NULL, ?, " + questions + ");";
+        PreparedStatement st1 = null;
+        System.out.println(query);
+        st1 = db.prepareStatement(query);
+        st1.setString(1, person);
+        for (var i = 1; i <= vars.size(); i++) {
+            st1.setString(i + 1, vars.get(i - 1).getSecond());
+        }
+        var s = st1.executeUpdate();
+    }
+
+    public HashMap<String, String> selectLast(ArrayList<Pair<String, String>> types, String person) throws Exception {
         Statement st = db.createStatement();
         ResultSet result;
-        result = st.executeQuery("SELECT * FROM " + table + " ORDER BY ID DESC LIMIT 1");
+        String sql = "SELECT * FROM " + table + " WHERE PERSON = '" + person + "' ORDER BY ID DESC LIMIT 1";
+        result = st.executeQuery(sql);
         result.next();
         HashMap<String, String> map = new HashMap<>();
-        for (String column : names) {
-            String value = result.getString(column);
-            map.put(column, value);
-            System.out.println(value);
+        for (Pair<String, String> col : types) {
+            String value = result.getString(col.getFirst());
+            map.put(col.getFirst(), value);
         }
         return map;
     }
 
-    public HashMap<String, String> selectList(ArrayList<String> names) throws Exception {
+    public void drop(String table) {
+        try {
+            String sql = "drop table " + table;
+            Statement st = null;
+            st = db.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<HashMap<String, String>> selectList(ArrayList<Pair<String, String>> types, String person) throws Exception {
         Statement st = db.createStatement();
         ResultSet result;
-        result = st.executeQuery("SELECT * FROM " + table);
-        result.next();
-        HashMap<String, String> map = new HashMap<>();
-        for (String column : names) {
-            String value = result.getString(column);
-            map.put(column, value);
-            System.out.println(value);
+        result = st.executeQuery("SELECT * FROM " + table + " where person = '" + person + "'");
+
+        ArrayList<HashMap<String, String>> res = new ArrayList<>();
+        while (result.next()) {
+            HashMap<String, String> map = new HashMap<>();
+            for (Pair<String, String> col : types) {
+                String value = result.getString(col.getFirst());
+                map.put(col.getFirst(), value);
+            }
+            res.add(map);
         }
-        return map;
+        return res;
+    }
+
+    public static void maain(String[] args) {
+        try {
+            ArrayList<Pair<String, String>> types = new ArrayList<>();
+            types.add(new Pair<>("NAME", "VARCHAR"));
+            types.add(new Pair<>("SUR", "VARCHAR"));
+            Database database = new Database("TEST3", types);
+
+            ArrayList<Pair<String, String>> vals = new ArrayList<>();
+            types.add(new Pair<>("NAME", "RUSLAN"));
+            types.add(new Pair<>("SUR", "Sirazhetdinov"));
+            database.insert(vals, "r");
+            HashMap<String, String> res = database.selectLast(types, "r");
+            database.selectList(types, "r");
+            System.out.println(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         try {
-            HashMap<String, String> types = new HashMap<>();
-            types.put("NAME", "VARCHAR");
-            types.put("SUR", "VARCHAR");
-            Database database = new Database("TEST2", types);
+            ArrayList<Pair<String, String>> types = new ArrayList<>();
+            types.add(new Pair<>("NAME", "VARCHAR"));
+            types.add(new Pair<>("SUR", "VARCHAR"));
+            Database database = new Database("TEST3", types);
 
-            ArrayList<String> a = new ArrayList<>();
-            a.add("NIK");
-            a.add("SiNAMEr");
-            database.insert(new ArrayList<>(a));
-            HashMap<String, String> res = database.selectLast(new ArrayList<>(types.keySet()));
-            System.out.println(res);
+            database.drop("CALCSTAT");
         } catch (Exception e) {
             e.printStackTrace();
         }

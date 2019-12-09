@@ -22,6 +22,10 @@ public class Auth implements Serializable {
         return "Incorrect data";
     }
 
+    public static String getPersonName() {
+        return currentPlayer.name;
+    }
+
     private static Player getPlayer(String name) {
         for (var player : playerProcesses.keySet()) {
             if (name.equals(player.name)) {
