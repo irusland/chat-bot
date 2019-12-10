@@ -63,7 +63,7 @@ public class Database {
         for (var i = 1; i <= vars.size(); i++) {
             st1.setString(i + 1, vars.get(i - 1).getSecond());
         }
-        var s = st1.executeUpdate();
+        st1.executeUpdate();
     }
 
     public void insertPositional(ArrayList<Pair<String, String>> vars, String person) throws Exception {
@@ -84,21 +84,21 @@ public class Database {
         for (var i = 1; i <= vars.size(); i++) {
             st1.setString(i + 1, vars.get(i - 1).getSecond());
         }
-        var s = st1.executeUpdate();
+        st1.executeUpdate();
     }
 
     public HashMap<String, String> selectLast(ArrayList<Pair<String, String>> types, String person) throws Exception {
         Statement st = db.createStatement();
-        ResultSet result;
         String sql = "SELECT * FROM " + table + " WHERE PERSON = '" + person + "' ORDER BY ID DESC LIMIT 1";
-        result = st.executeQuery(sql);
-        result.next();
-        HashMap<String, String> map = new HashMap<>();
-        for (Pair<String, String> col : types) {
-            String value = result.getString(col.getFirst());
-            map.put(col.getFirst(), value);
+        try (ResultSet result = st.executeQuery(sql)) {
+            result.next();
+            HashMap<String, String> map = new HashMap<>();
+            for (Pair<String, String> col : types) {
+                String value = result.getString(col.getFirst());
+                map.put(col.getFirst(), value);
+            }
+            return map;
         }
-        return map;
     }
 
     public void drop(String table) {
@@ -114,19 +114,18 @@ public class Database {
 
     public ArrayList<HashMap<String, String>> selectList(ArrayList<Pair<String, String>> types, String person) throws Exception {
         Statement st = db.createStatement();
-        ResultSet result;
-        result = st.executeQuery("SELECT * FROM " + table + " where person = '" + person + "'");
-
-        ArrayList<HashMap<String, String>> res = new ArrayList<>();
-        while (result.next()) {
-            HashMap<String, String> map = new HashMap<>();
-            for (Pair<String, String> col : types) {
-                String value = result.getString(col.getFirst());
-                map.put(col.getFirst(), value);
+        try (ResultSet result=st.executeQuery("SELECT * FROM " + table + " where person = '" + person + "'")) {
+            ArrayList<HashMap<String, String>> res = new ArrayList<>();
+            while (result.next()) {
+                HashMap<String, String> map = new HashMap<>();
+                for (Pair<String, String> col : types) {
+                    String value = result.getString(col.getFirst());
+                    map.put(col.getFirst(), value);
+                }
+                res.add(map);
             }
-            res.add(map);
+            return res;
         }
-        return res;
     }
 
     public static void maain(String[] args) {

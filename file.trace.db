@@ -93,3 +93,103 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CALCSTATVALUES" not found; SQL s
 INSERT INTO CALCSTATVALUES (NULL, ?, ?); [42102-199]
 2019-12-09 18:52:18 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-199]
+2019-12-10 09:07:57 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-199]
+2019-12-10 09:08:58 jdbc[6]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-199]
+2019-12-10 09:09:14 jdbc[7]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:242)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:182)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
+	at bot.Database.connect(Database.java:53)
+	at bot.Database.<init>(Database.java:20)
+	at game.tictactoe.Stat.save(Stat.java:48)
+	at game.tictactoe.Stat.incCrossTotal(Stat.java:38)
+	at game.tictactoe.TicTacToe.request(TicTacToe.java:61)
+	at bot.Bot.resume(Bot.java:189)
+	at bot.Bot.play(Bot.java:154)
+	at bot.Bot.start(Bot.java:111)
+	at App.main(App.java:26)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 18 more
+2019-12-10 09:09:14 jdbc[7]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:242)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:182)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
+	at bot.Database.connect(Database.java:53)
+	at bot.Database.<init>(Database.java:20)
+	at game.tictactoe.Stat.save(Stat.java:48)
+	at game.tictactoe.Stat.incCrossTotal(Stat.java:38)
+	at game.tictactoe.TicTacToe.request(TicTacToe.java:61)
+	at bot.Bot.resume(Bot.java:189)
+	at bot.Bot.play(Bot.java:154)
+	at bot.Bot.start(Bot.java:111)
+	at App.main(App.java:26)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 18 more
+2019-12-10 09:09:14 jdbc[7]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:242)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:182)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
+	at bot.Database.connect(Database.java:53)
+	at bot.Database.<init>(Database.java:20)
+	at game.tictactoe.Stat.save(Stat.java:48)
+	at game.tictactoe.Stat.incCrossTotal(Stat.java:38)
+	at game.tictactoe.TicTacToe.request(TicTacToe.java:61)
+	at bot.Bot.resume(Bot.java:189)
+	at bot.Bot.play(Bot.java:154)
+	at bot.Bot.start(Bot.java:111)
+	at App.main(App.java:26)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 18 more
+2019-12-10 09:09:14 jdbc[7]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:242)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:182)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
+	at bot.Database.connect(Database.java:53)
+	at bot.Database.<init>(Database.java:20)
+	at game.tictactoe.Stat.save(Stat.java:48)
+	at game.tictactoe.Stat.incCrossTotal(Stat.java:38)
+	at game.tictactoe.TicTacToe.request(TicTacToe.java:61)
+	at bot.Bot.resume(Bot.java:189)
+	at bot.Bot.play(Bot.java:154)
+	at bot.Bot.start(Bot.java:111)
+	at App.main(App.java:26)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection was not closed by the application and is garbage collected [90018-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 18 more
