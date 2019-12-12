@@ -147,7 +147,7 @@ public class Database {
         }
     }
 
-    public static void main(String[] args) {
+    public static void maian(String[] args) {
         try {
             ArrayList<Pair<String, String>> types = new ArrayList<>();
             types.add(new Pair<>("NAME", "VARCHAR"));
