@@ -1,6 +1,7 @@
 package bot;
 
 import console_channel.ConsoleChannel;
+import game.weather.Weather;
 import telegram_channel.ChannelInitializer;
 import auth.Auth;
 import game.Game;
@@ -102,11 +103,14 @@ public class Bot {
                 }
             }
             while (Auth.loggedIn) {
-                enqueueOutput("Выбери игру\n" + "\n/xo" + "\n/ship" + "\n/calc" + "\n/logout" + "\n/switch");
+                enqueueOutput("Выбери игру\n" + "\n/weather" + "\n/xo" + "\n/ship" + "\n/calc" + "\n/logout" + "\n/switch");
                 sendOutput();
                 var choice = readQuery();
 //                writer.println(choice);
                 switch (choice) {
+                    case "/weather":
+                        play(Weather.class);
+                        break;
                     case "/xo":
                         play(TicTacToe.class);
                         break;
